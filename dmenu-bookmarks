@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# A bookmark browser based on dmenu
+
+# Requires: dmenu-filepicker, open-url
+
+dir=$XDG_DATA_HOME/bookmarks
+
+cat $(dmenu-filepicker "$dir") | xargs open-url
