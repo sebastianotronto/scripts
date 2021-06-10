@@ -28,6 +28,7 @@ SCRIPTS =       addressgrep \
 		spawn \
 		templess \
 		togglemute \
+		translate \
 		urlgrep \
 		volume \
 		websearch \

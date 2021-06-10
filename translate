@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Opens google translate
+
+translator="https://translate.google.com/"
+from=$1
+to=$2
+
+shift 2
+open-url "${translator}?sl=${from}&tl=${to}&text=$@&op=translate"
