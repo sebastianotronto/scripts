@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Finds all URLs in stdin and prompts a dmenu choice, then writes the selected
+# url to stdout.
+# Requires: dmenu (or similar), urlgrep
+
+menu=${MENU:-dmenu}
+menuopts="-l 20"
+
+urlgrep | $menu $menuopts

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# TODO this replaces $FLOATINGTERMINAL
+
+$TERMINAL -T 'stfloat' -g 85x25+550+300 $@

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Saves standard input in a download folder and opens it with myopen
+# Usage: open-stdin 
+# Requires: open-file
+
+folder=$HOME/Downloads/open-stdin
+
+tempfile=$(mktemp -p "$folder")
+
+cat > "$tempfile" && open-file -t "$1" "$tempfile"

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Open link in preferred application
+# Requires: mail-compose, xsel (optional)
+
+browser=${BROWSER:-firefox}
+imageviewer=${IMAGEVIEWER:-imv}
+
+[ -z "$1" ] && exit 0
+
+# Optional: copy url to clipboard
+echo "$@" | xsel -ib
+
+case "$@" in
+	mailto:*)
+		mail-compose $@
+		;;
+	*.jpg | *.jpeg | *.png)
+		spawn $imageviewer "$@"
+		;;
+	*.gif)
+		spawn $imageviewer "$@"
+		;;
+#	https://www.youtube.com/watch\?v=*)
+#		spawn $VIDEOPLAYER "$1"
+# 		;;
+	*)
+		spawn $browser "$@"
+		;;
+esac
+

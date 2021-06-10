@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Prompts selection for mounted devices and unmounts the selected one
+# Requires: udevil, dmenu (or similar), notify-send (optional)
+
+menu=${MENU:-dmenu}
+writeout="notify-send" # Change this to whatever you want, e.g. echo
+
+listdev=$(grep "media" /proc/mounts | sed 's/\/media.*\///g' | \
+          awk '{print $1" ("$2")"}')
+
+if [ -z "$listdev" ]; then
+	$writeout "Nothing to unmount"
+else
+	seldev=$(echo "$listdev" | $menu | awk '{print $1}')
+	if [ -n "$seldev" ]; then
+		udevil unmount "$seldev"
+		failed=$(udevil info "$seldev" | grep mounted | awk '{print $3}')
+		if [ $failed -eq 1 ]; then
+			$writeout "Unmount FAILED" "Device is still mounted!"
+		else
+			$writeout "Device unmounted"
+		fi
+	fi
+fi
+# notify-send "$(udisksctl unmount -b $seldev)"

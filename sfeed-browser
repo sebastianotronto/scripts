@@ -1,0 +1,62 @@
+#!/bin/sh
+
+# This script is based on sfeed (https://codemadness.org/sfeed.html), but
+# it allows you organize your feeds in directories and subdirectories.
+# In your $sfd directory (see below) you should have two folders:
+#	urls: it can contain more subfolders and files. Each file should contain
+#		only one line with the url to the feed. The name of the file is the
+#		name of the feed (it can contains spaces and such).
+#	files: this one can be empty, it will be filled with the feed files
+# An older version of this script also marked viewed items and removed
+# them before displaying the choice of feeds. Contact me if you are interested
+# in using it.
+
+# Requires: sfeed, dmenu-file-picker (or similar), open-url (or similar)
+
+filepicker="dmenu-filepicker" # Try "nnn -p -"
+menu=${MENU:-dmenu}
+menuopts="-l 35 -i"
+urlopener=open-url
+sfd="$XDG_CONFIG_HOME/sfeed"
+showlast=10
+
+# Might add more stuff later
+fixurl() {
+	sed 's/old\.reddit\.com/reddit\.com/'
+}
+
+dirtofeedpaths() {
+	while read line; do
+		find "$line" | while read fname; do
+			[ -f "$fname" ] && echo "$fname"
+		done
+	done
+}
+
+pathstosfeedrc() {
+	printf "sfeedpath=\"$sfd/files\"\n\nfeeds() {\n"
+	while read line; do
+		feedname=$(echo "$line" | sed 's/.*\///')
+		read feedurl <"$line"
+		printf "\tfeed \"$feedname\" \"$feedurl\"\n"
+	done
+	printf "}\n"
+}
+
+feedmenu() {
+	while read line; do
+		feedname=$(echo "$line" | sed 's/.*\///')
+		sfeed_plain "$sfd/files/$feedname" | head -$showlast
+	done | $menu $menuopts
+}
+
+openfeeds() {
+	while read line; do
+		url=$(echo "$line" | sed 's/.*[\t ]//' | fixurl)
+		[ -n "$url" ] && echo $url
+	done | xargs $urlopener
+}
+
+$filepicker "$sfd/urls" | dirtofeedpaths > "$sfd/last"
+pathstosfeedrc < "$sfd/last" > "$sfd/sfeedrc"
+sfeed_update "$sfd/sfeedrc" && feedmenu < "$sfd/last" | openfeeds

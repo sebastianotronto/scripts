@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Increase / decrease brightness, and pops up a notification
+# Requires: xbacklight, notify-send
+# Usage: brightness {inc|dec} n
+
+xbacklight -$1 $2 && notify-send "Brightness: $(xbacklight | sed 's/\..*$//')%"

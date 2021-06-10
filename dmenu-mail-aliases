@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Select mail alias via dmenu
+# The email address must be the second word in a line of $aliasfile
+# Requires: dmenu (or similar)
+
+menu=${MENU:-dmenu}
+menuopts="-l 20"
+aliasfile="$XDG_CONFIG_HOME/mblaze/aliases"
+
+xargs printf "%-40s %s\n" <"$aliasfile" | $menu $menuopts | awk '{print $2}'

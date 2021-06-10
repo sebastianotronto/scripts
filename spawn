@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Simple command to spawn and detach an application
+
+"$@" >/dev/null 2>&1 &

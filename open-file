@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# Inspired by https://github.com/salman-abedin/launch.sh
+# Launches files based on their mimetypes
+# Use option -s devour to swallow or -s " " to open normally from terminal
+# Use -t to specify mimetype
+# Requires: dmenu_path or similar (fallback)
+
+menu=${MENU:-dmenu}
+
+while getopts "s:t:" opt; do
+	case "$opt" in
+		s)
+			launcher="$OPTARG"
+			;;
+		t)
+			mimetype="$OPTARG"
+			;;
+	esac
+done
+
+shift `expr $OPTIND - 1`
+
+[ -z "$launcher" ] && launcher="spawn"
+[ -z "$mimetype" ] && mimetype="$(file --mime-type "$1" -bL)"
+
+[ -d "$1" ] && $launcher $XFILEMANAGER "$1" && exit 0
+[ ! -f "$1" ] && echo "$1: bad argument" && exit 1
+
+case "$mimetype" in
+	video/*)
+		$launcher $VIDEOPLAYER "$1"
+		;;
+	audio/*)
+		$launcher $MUSICPLAYER "$1"
+		;;
+	application/pdf | application/postscript | image/vnd.djvu)
+		$launcher $VIEWER "$1"
+		;;
+	image/*)
+		$launcher $IMAGEVIEWER "$1"
+		;;
+	application/msword | \
+	application/vnd.oasis.opendocument.text | text/rtf | \
+	application/vnd.openxmlformats-officedocument.wordprocessingml.*)
+		$launcher $TEXTDOCUMENT "$1"
+		;;
+	application/ms-excel | application/vnd.oasis.opendocument.spreadsheet | \
+	text/rtf | application/vnd.openxmlformats-officedocument.spreadsheetml.*)
+		$launcher $SPREADSHEET "$1"
+		;;
+	text/html | text/enriched)
+		$launcher $BROWSER --new-window "$1"
+		;;
+	text/*)
+		$launcher $XEDITOR "$1"
+		;;
+	application/zip)
+		unzip "$1"
+		;;
+	application/x-rar-compressed)
+		unrar "$1"
+		;;
+	application/x-archive | application/x-tar | \
+	application/x-bzip2 | application/gzip | application/x-lzip | \
+	application/x-lzma | application/x-xz | application/x-gtar)
+		tar -tavf "$1"
+		;;
+	*)
+		prog=$(dmenu_path | $menu -p "How to open $1 ?")
+		if [ -n "$prog" ]; then
+			$launcher $prog "$1"
+			else
+			exit 1
+		fi
+		;;
+esac

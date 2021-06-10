@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Open a mail composer.
+# Requires: mblaze
+
+terminal=${TERMINAL:-xterm}
+
+$terminal -e mcom $@

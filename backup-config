@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Backup local configuration files
+
+destdir=$HOME/Dropbox/configbackups
+srcdir=$HOME/.local/src
+
+# Uncomment to clean old backups
+#rm -rf $destdir/config $destdir/scripts $destdir/src
+mkdir -p $destdir/config $destdir/src
+
+# First copy everything from .config and .bashrc and similar
+cp -r $XDG_CONFIG_HOME/* $destdir/config/
+cp $HOME/.bash* $destdir/
+
+# Then copy files from src (only source, config, makefile and READMEs)
+srcsubdirs=$(ls $srcdir)
+for i in $srcsubdirs; do
+  si="$srcdir/$i"
+  if [ -d "$si" ]; then
+    mkdir -p $destdir/src/$i
+    for f in "$si/*.c" "$si/*.h" "$si/config.*" "$si/Makefile" "$si/README*"; do
+      for ff in $f; do
+        [ -e $ff ] && cp $f $destdir/src/$i/
+      done
+    done
+  fi
+done
+

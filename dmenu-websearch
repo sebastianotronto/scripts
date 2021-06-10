@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Popup $TERMINAL prompting for websearch
+# Requires: dmenu (or similar), websearch
+
+menu=${MENU:-dmenu}
+
+websearch $(echo "" | $menu -p "websearch:")

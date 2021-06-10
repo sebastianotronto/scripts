@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Popup $TERMINAL displaying cal -3
+$TERMINAL -T "stfloat" -g 66x33+620+250 -e sh -c 'cal $(date +%Y); read x'

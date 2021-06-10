@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Little notification to show time and date
+# Requirements: notify-send
+
+t=$(date +"%H:%M:%S")
+d=$(date +"%d\ %B\ %Y,\ %A")
+
+notify-send "$t" "$d"

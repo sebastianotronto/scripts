@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Send battery information to stdout
+
+# Get battery status
+battery="/sys/class/power_supply/BAT0"
+message=""
+
+if [ -d $battery ]; then
+	capacity=$(cat $battery/capacity)
+	status=$(cat $battery/status)
+	message="$capacity% $status"
+else
+	message="No battery"
+fi
+
+echo "$message"

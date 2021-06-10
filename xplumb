@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# My interpretation of a plumber (plan9 style).
+# It scans the selected text (xsel) and decides what to do with it among
+# some possibilities (open file, open url, man page...). If none is matched,
+# a choice is prompted.
+
+# Requires: dmenu (or similar), mail-compose, open-file, websearch, xsel
+
+# TODO:
+#	send mail to email address;
+#	calendar if it is a date
+#	choice: pipe to another program
+
+browser=${BROWSER:-firefox}
+terminal=${TERMINAL:-xterm}
+xeditor=${XEDITOR:-gedit}
+menu=${MENU:-dmenu}
+menuopts="-l 10"
+
+text=$(xsel | sed 's/\n/ /g')
+if [ $(echo "$text" | wc -c) -ge 11 ]; then
+	shorttext=$(echo "$text" | cut -b 1-10)...
+else
+	shorttext="$text"
+fi
+
+choice() {
+	chosen=$(printf "websearch\nedit" | \
+	         $menu $menuopts -p "What to do with \"$shorttext\"?")
+
+	if [ "$chosen" = "websearch" ]; then
+		websearch $text
+	elif [ "$chosen" = "edit" ]; then
+		f=$(mktemp)
+		xsel > "$f"
+		$xeditor "$f"
+	fi
+}
+
+trymail() {
+	addr=$(echo "$1" | addressgrep)
+	( [ -n "$addr" ] && mail-compose $addr ) || return 1
+}
+
+tryman() {
+	number=$(echo "$1" | sed 's/[^1-8]//g')
+	name=$(echo "$1" | sed 's/([1-8])//g' | sed 's/ //g')
+	if [ $(man -w "$number" "$name" | wc -l) = 1 ]; then
+		$terminal -e man "$number" "$name"
+		return 0
+	else
+		return 1
+	fi
+}
+
+tryurl() {
+	url=$(echo "$1" | urlgrep)
+	( [ -n "$url" ] && $browser $url ) || return 1
+}
+
+open-file "$text" || \
+tryurl    "$text" || \
+trymail   "$text" || \
+tryman    "$text" || \
+choice

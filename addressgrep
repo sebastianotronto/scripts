@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Find all email addresses in stdin, print them newline-separated to stdout
+
+reg='[a-z0-9\._\+\-%]+@[a-z0-9\._\+\-%]+\.[a-zA-Z]+'
+
+grep -Pio "$reg"
+

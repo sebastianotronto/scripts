@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Check battery state, save result to a file. Pop up notification if changed.
+# Requires: battery-status, notify-battery
+
+file="$XDG_DATA_HOME/batterystatus"
+low=20
+crit=15
+
+new=$(battery-status)
+level=$(echo "$new" | sed 's/%.*//')
+status=$(echo "$new" | awk '{print $2}')
+
+[ "$status" = "Discharging" ] && [ $level -le $low ]  && status="Low"
+[ "$status" = "Discharging" ] && [ $level -le $crit ] && status="Critical"
+
+if [ "$status" != "$(cat $file)" ] || [ "$status" = "Critical" ]; then
+	notify-battery
+fi
+
+echo "$status" > "$file"

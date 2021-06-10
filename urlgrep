@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Find all url in stdin, print them newline-separated to stdout
+
+reg='(((http|https|ftp)|mailto)[.:][^ >"\t]*|www\.[-a-z0-9.]+)[^ .,;\t>">\):]'
+
+grep -Po "$reg"
+

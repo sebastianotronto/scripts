@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Change volume and notify
+# Usage: volume {+n|-n}
+# Requires: pulsemixer, notify-send
+
+#TODO: use this to replace myvolumeup/myvolumedown
+
+newvol=$(pulsemixer --change-volume "$1" --get-volume | awk '{print $1}')
+notify-send "Volume" "$newvol%"

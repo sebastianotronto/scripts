@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Prompts menu to shutdown/reboot/close dwm
+# Requires: dmenu (or equivalent), dwm (optional)
+
+menu=${MENU:-dmenu}
+menuopts="-i -p"
+menuprompt="Do you want to quit?"
+wmname="dwm"
+
+shutdown_cmd="sudo shutdown -h now"
+reboot_cmd="sudo reboot"
+closewm_cmd="pkill $wmname"
+
+value=$(echo "Shutdown\nReboot\nQuit dwm" | $menu $menuopts "$menuprompt")
+
+if [ "$value" = "Shutdown" ]; then
+	$shutdown_cmd
+elif [ "$value" = "Reboot" ]; then
+	$reboot_cmd
+elif [ "$value" = "Quit $wmname" ]; then
+	$closewm_cmd
+fi
+

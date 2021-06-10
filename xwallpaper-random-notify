@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Set a random background from the wallpapers folder and notify about it
+# Requires: xwallpaper (or feh), notify-send (optional)
+
+folder=~/Pictures/wallpapers
+pic=$(ls $folder | sort -R | head -1)
+
+# Alternative: use feh
+#feh --bg-fill --no-fehbg $folder/$pic
+xwallpaper --zoom $folder/$pic
+
+notify-send "Background of the day" $pic

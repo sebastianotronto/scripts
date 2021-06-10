@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Screenshot utility
+# Requires: dmenu (or similar), imagemagick
+
+menu=${MENU:-dmenu}
+menuopts="-i -p"
+menuprompt="Select type of screenshot:"
+
+folder="$HOME/Pictures/screenshots"
+filename="screenshot_$(date +%Y-%m-%d-%H%M%S).png"
+filepath="${folder}/${filename}"
+
+t=$(echo "Full\nSelection" | $menu $menuopts "$menuprompt")
+#op="" TODO: remove if not needed
+if [ "$t" = "Full" ]; then
+	op="-window root"
+else
+	pkill xbanish # otherwise I can't use mouse to select area
+fi
+
+[ -n "$t" ] && sleep 0.1 && import $op $filepath
+spawn xbanish # This can be removed if you don't use xbanish

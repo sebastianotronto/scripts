@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Loads my xkboptions
+
+setxkbmap -option compose:ralt
+setxkbmap -option caps:swapescape

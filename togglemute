@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Toggle mute state and notify
+# Requires: pulsemixer, notify-send
+
+ismute=$(pulsemixer --toggle-mute --get-mute)
+
+if [ "$ismute" = "1" ]; then
+	m="muted"
+else
+	m="unmuted"
+fi
+
+notify-send "Audio $m"

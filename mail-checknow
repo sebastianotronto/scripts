@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Check for new email, save result to file.
+# Requires: mpop, notify-send
+
+file="$XDG_DATA_HOME/newmail"
+notify="notify-send"
+
+l=$(cat "$file")
+n=$(mpop -s | awk '/new*./{print $2}')
+
+if [ -n "$n" ]; then
+	echo "$n" > "$file"
+	if [ "$n" != "no" ] && [ "$l" != "$n" ]; then
+		$notify "New email ($n)"
+	fi
+fi
