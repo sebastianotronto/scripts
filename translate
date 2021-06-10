@@ -7,4 +7,5 @@ from=$1
 to=$2
 
 shift 2
-open-url "${translator}?sl=${from}&tl=${to}&text=$@&op=translate"
+text=$(echo $@ | sed 's/ /\%20/g')
+open-url "${translator}?sl=${from}&tl=${to}&text=${text}&op=translate"
