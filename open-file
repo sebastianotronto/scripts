@@ -66,6 +66,9 @@ case "$mimetype" in
 	application/x-lzma | application/x-xz | application/x-gtar)
 		tar -tavf "$1"
 		;;
+	application/java-archive)
+		java -jar "$1"
+		;;
 	*)
 		prog=$(dmenu_path | $menu -p "How to open $1 ?")
 		if [ -n "$prog" ]; then
