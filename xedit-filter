@@ -1,6 +1,5 @@
 #/!bin/sh
 
-asfd
 # Open stdin in a text editor and sends modified selection to stdout
 
 xeditor=${XEDITOR:-gedit}
