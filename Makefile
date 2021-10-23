@@ -16,6 +16,7 @@ SCRIPTS =       addressgrep \
 		dunst-toggle \
 		mail-checknow \
 		mail-compose \
+		netsurf-wrapper-file \
 		notify-battery \
 		notify-time \
 		open-file \
