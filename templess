@@ -1,8 +1,0 @@
-#!/bin/sh
-
-# Write standard in to a temporary file and sends it to a pager.
-
-pager=${PAGER:-less}
-tempfile=$(mktemp)
-
-cat > "$tempfile" && $pager "$tempfile" 
