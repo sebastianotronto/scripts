@@ -1,9 +1,0 @@
-#!/bin/sh
-
-# When using netsurf to open a local file, if the file does not have a proper
-# extension it is not interpreted as html. This wrapper script fixes this.
-# Requires: netsurf
-
-cp "$1" "$1.html"
-netsurf "$1.html"
-rm "$1.html"
