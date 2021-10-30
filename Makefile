@@ -26,6 +26,7 @@ SCRIPTS =       addressgrep \
 		popup-terminal \
 		sfeed-browser \
 		spawn \
+		templess \
 		togglemute \
 		translate \
 		urlgrep \
