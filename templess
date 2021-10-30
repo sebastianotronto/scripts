@@ -1,6 +1,8 @@
 #!/bin/sh
 
 # Write standard in to a temporary file and sends it to a pager.
+# This is used to be able to pipe the content displayed by less to
+# an external program.
 
 pager=${PAGER:-less}
 tempfile=$(mktemp)
