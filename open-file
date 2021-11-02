@@ -5,6 +5,8 @@
 # Use option -s devour to swallow or -s " " to open normally from terminal
 # Use -t to specify mimetype
 # Requires: dmenu_path or similar (fallback)
+#           environment variables for default programs need to be set
+#           (I might remove this requirement at some point)
 
 menu=${MENU:-dmenu}
 
@@ -50,7 +52,7 @@ case "$mimetype" in
 		$launcher $SPREADSHEET "$1"
 		;;
 	text/html | text/enriched)
-		$launcher $BROWSER --new-window "$1"
+		$launcher $HTMLVIEWER "$1"
 		;;
 	text/*)
 		$launcher $XEDITOR "$1"

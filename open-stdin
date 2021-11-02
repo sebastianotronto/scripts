@@ -4,7 +4,8 @@
 # Usage: open-stdin 
 # Requires: open-file
 
-folder=$HOME/Downloads/open-stdin
+#folder=$HOME/Downloads/open-stdin
+folder=${TMPDIR:-/tmp}
 
 tempfile=$(mktemp -p "$folder")
 
