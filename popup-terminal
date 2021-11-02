@@ -1,5 +1,5 @@
 #!/bin/sh
 
-# TODO this replaces $FLOATINGTERMINAL
+# TODO maybe I want to run e.g. tmux in this?
 
-$TERMINAL -T 'stfloat' -g 85x25+550+300 $@
+st -T "stfloat" -g 85x25+550+300 $@
