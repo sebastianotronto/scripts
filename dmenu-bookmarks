@@ -7,4 +7,6 @@
 #dir=$XDG_DATA_HOME/bookmarks
 dir=$HOME/Dropbox/bookmarks # TODO: change it when I have a better sync system
 
-cat "$(dmenu-filepicker $dir)" | xargs open-url
+echo "$(dmenu-filepicker $dir)" | while read line; do
+	cat "$line"
+done | xargs open-url

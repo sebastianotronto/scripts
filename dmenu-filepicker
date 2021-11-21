@@ -21,7 +21,9 @@ while true; do
 		cd "$next"
 		next=$(ls -a | $menu $menuopts)
 	else
-		echo "$(pwd)/$next"
+		echo "$next" | while read line; do
+			echo "$(pwd)/$line"
+		done
 		break
 	fi
 done
