@@ -59,7 +59,7 @@ tryurl() {
 	( [ -n "$url" ] && $browser $url ) || return 1
 }
 
-open-file "$text" || \
+open-file -s spawn "$text" || \
 tryurl    "$text" || \
 trymail   "$text" || \
 tryman    "$text" || \

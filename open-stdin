@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Saves standard input in a download folder and opens it with myopen
+# Saves standard input in a download folder and opens it (spawn)
 # Usage: open-stdin 
 # Requires: open-file
 
@@ -9,4 +9,4 @@ folder=${TMPDIR:-/tmp}
 
 tempfile=$(mktemp -p "$folder")
 
-cat > "$tempfile" && open-file -t "$1" "$tempfile"
+cat > "$tempfile" && open-file -s spawn -t "$1" "$tempfile"
