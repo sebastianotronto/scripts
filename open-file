@@ -39,7 +39,7 @@ toopen=$@
 [ -z "$toopen" ] && toopen=$(dmenu-filepicker)
 
 for f in $toopen; do
-	[ ! -f "$f" ] && echo "$f: bad argument" && continue
+	[ ! -f "$f" ] && echo "$f: bad argument" && exit 1
 	[ -z "$mimetype" ] && mimetype="$(file --mime-type "$f" -bL)"
 	case "$mimetype" in
 		video/*)
