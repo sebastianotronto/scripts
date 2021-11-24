@@ -5,8 +5,7 @@
 # Use option -s devour to swallow or -s " " to open normally from terminal
 # Use -t to specify mimetype
 # Requires: dmenu_path or similar (fallback)
-#           environment variables for default programs need to be set
-#           (I might remove this requirement at some point)
+#           dmenu-filepicker
 
 menu=${MENU:-dmenu}
 
@@ -30,67 +29,67 @@ while getopts "s:t:" opt; do
 	esac
 done
 
-shift `expr $OPTIND - 1`
-
 # If launcher = "", assume running in terminal, so some programs change
 if [ -z "$launcher" ]; then
 	xedit=${EDITOR:-vi}
 fi
 
-#[ -z "$launcher" ] && launcher="spawn"
-[ -z "$mimetype" ] && mimetype="$(file --mime-type "$1" -bL)"
+shift `expr $OPTIND - 1`
+toopen=$@
+[ -z "$toopen" ] && toopen=$(dmenu-filepicker)
 
-[ -d "$1" ] && echo "$1: is a directory" && exit 1
-[ ! -f "$1" ] && echo "$1: bad argument" && exit 1
-
-case "$mimetype" in
-	video/*)
-		$launcher $video "$1"
-		;;
-	audio/*)
-		$launcher $music "$1"
-		;;
-	application/pdf | application/postscript | image/vnd.djvu)
-		$launcher $pdf "$1"
-		;;
-	image/*)
-		$launcher $img "$1"
-		;;
-	application/msword | \
-	application/vnd.oasis.opendocument.text | text/rtf | \
-	application/vnd.openxmlformats-officedocument.wordprocessingml.*)
-		$launcher $word "$1"
-		;;
-	application/ms-excel | application/vnd.oasis.opendocument.spreadsheet | \
-	text/rtf | application/vnd.openxmlformats-officedocument.spreadsheetml.*)
-		$launcher $sheet "$1"
-		;;
-	text/html | text/enriched)
-		$launcher $html "$1"
-		;;
-	text/*)
-		$launcher $xedit "$1"
-		;;
-	application/zip)
-		unzip "$1"
-		;;
-	application/x-rar-compressed)
-		unrar "$1"
-		;;
-	application/x-archive | application/x-tar | \
-	application/x-bzip2 | application/gzip | application/x-lzip | \
-	application/x-lzma | application/x-xz | application/x-gtar)
-		tar -tavf "$1"
-		;;
-	application/java-archive)
-		java -jar "$1"
-		;;
-	*)
-		prog=$(dmenu_path | $menu -p "How to open $1 ?")
-		if [ -n "$prog" ]; then
-			$launcher $prog "$1"
-			else
-			exit 1
-		fi
-		;;
-esac
+for f in $toopen; do
+	[ ! -f "$f" ] && echo "$f: bad argument" && continue
+	[ -z "$mimetype" ] && mimetype="$(file --mime-type "$f" -bL)"
+	case "$mimetype" in
+		video/*)
+			$launcher $video "$f"
+			;;
+		audio/*)
+			$launcher $music "$f"
+			;;
+		application/pdf | application/postscript | image/vnd.djvu)
+			$launcher $pdf "$f"
+			;;
+		image/*)
+			$launcher $img "$f"
+			;;
+		application/msword | \
+		application/vnd.oasis.opendocument.text | text/rtf | \
+		application/vnd.openxmlformats-officedocument.wordprocessingml.*)
+			$launcher $word "$f"
+			;;
+		application/ms-excel | application/vnd.oasis.opendocument.spreadsheet | \
+		text/rtf | application/vnd.openxmlformats-officedocument.spreadsheetml.*)
+			$launcher $sheet "$f"
+			;;
+		text/html | text/enriched)
+			$launcher $html "$f"
+			;;
+		text/*)
+			$launcher $xedit "$f"
+			;;
+		application/zip)
+			unzip "$f"
+			;;
+		application/x-rar-compressed)
+			unrar "$f"
+			;;
+		application/x-archive | application/x-tar | \
+		application/x-bzip2 | application/gzip | application/x-lzip | \
+		application/x-lzma | application/x-xz | application/x-gtar)
+			tar -tavf "$f"
+			;;
+		application/java-archive)
+			java -jar "$f"
+			;;
+		*)
+			prog=$(dmenu_path | $menu -p "How to open $f ?")
+			if [ -n "$prog" ]; then
+				$launcher $prog "$f"
+				else
+				exit 1
+			fi
+			;;
+	esac
+done
