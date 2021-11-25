@@ -41,55 +41,58 @@ toopen=$@
 for f in $toopen; do
 	[ ! -f "$f" ] && echo "$f: bad argument" && exit 1
 	[ -z "$mimetype" ] && mimetype="$(file --mime-type "$f" -bL)"
+
+	prog=""
 	case "$mimetype" in
 		video/*)
-			$launcher $video "$f"
+			prog="$video"
 			;;
 		audio/*)
-			$launcher $music "$f"
+			prog="$music"
 			;;
 		application/pdf | application/postscript | image/vnd.djvu)
-			$launcher $pdf "$f"
+			prog="$pdf"
 			;;
 		image/*)
-			$launcher $img "$f"
+			prog="$img"
 			;;
 		application/msword | \
 		application/vnd.oasis.opendocument.text | text/rtf | \
 		application/vnd.openxmlformats-officedocument.wordprocessingml.*)
-			$launcher $word "$f"
+			prog="$word"
 			;;
 		application/ms-excel | application/vnd.oasis.opendocument.spreadsheet | \
 		text/rtf | application/vnd.openxmlformats-officedocument.spreadsheetml.*)
-			$launcher $sheet "$f"
+			prog="$sheet"
 			;;
 		text/html | text/enriched)
-			$launcher $html "$f"
+			prog="$html"
 			;;
 		text/*)
-			$launcher $xedit "$f"
+			prog="$xedit"
 			;;
 		application/zip)
-			unzip "$f"
+			prog="unzip"
 			;;
 		application/x-rar-compressed)
-			unrar "$f"
+			prog="unrar"
 			;;
 		application/x-archive | application/x-tar | \
 		application/x-bzip2 | application/gzip | application/x-lzip | \
 		application/x-lzma | application/x-xz | application/x-gtar)
-			tar -tavf "$f"
+			prog="tar -tavf"
 			;;
 		application/java-archive)
-			java -jar "$f"
+			prog="java -jar"
 			;;
 		*)
 			prog=$(dmenu_path | $menu -p "How to open $f ?")
-			if [ -n "$prog" ]; then
-				$launcher $prog "$f"
-				else
-				exit 1
-			fi
 			;;
 	esac
+
+	if [ -n "$prog" ]; then
+		$launcher $prog "$f" &
+	else
+		exit 1
+	fi
 done
