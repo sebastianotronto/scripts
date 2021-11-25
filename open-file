@@ -30,9 +30,9 @@ while getopts "s:t:" opt; do
 done
 
 # If launcher = "", assume running in terminal, so some programs change
-if [ -z "$launcher" ]; then
-	xedit=${EDITOR:-vi}
-fi
+#if [ -z "$launcher" ]; then
+#	xedit=${EDITOR:-vi}
+#fi
 
 shift `expr $OPTIND - 1`
 toopen=$@
@@ -40,10 +40,10 @@ toopen=$@
 
 for f in $toopen; do
 	[ ! -f "$f" ] && echo "$f: bad argument" && exit 1
-	[ -z "$mimetype" ] && mimetype="$(file --mime-type "$f" -bL)"
+	[ -z "$mimetype" ] && localmime="$(file --mime-type "$f" -bL)"
 
 	prog=""
-	case "$mimetype" in
+	case "$localmime" in
 		video/*)
 			prog="$video"
 			;;
