@@ -18,27 +18,9 @@ sheet=${SPREADSHEET:-libreoffice}
 html=${HTMLVIEWER:-firefox}
 xedit=${XEDITOR:-gedit}
 
-while getopts "s:t:" opt; do
-	case "$opt" in
-		s)
-			launcher="$OPTARG"
-			;;
-		t)
-			mimetype="$OPTARG"
-			;;
-	esac
-done
+openfile() {
+	f="$@"
 
-# If launcher = "", assume running in terminal, so some programs change
-#if [ -z "$launcher" ]; then
-#	xedit=${EDITOR:-vi}
-#fi
-
-shift `expr $OPTIND - 1`
-toopen=$@
-[ -z "$toopen" ] && toopen=$(dmenu-filepicker)
-
-for f in $toopen; do
 	[ ! -f "$f" ] && echo "$f: bad argument" && exit 1
 	[ -z "$mimetype" ] && localmime="$(file --mime-type "$f" -bL)"
 
@@ -91,8 +73,38 @@ for f in $toopen; do
 	esac
 
 	if [ -n "$prog" ]; then
-		$launcher $prog "$f" &
+		$launcher $prog "$f"
 	else
 		exit 1
 	fi
+}
+
+while getopts "s:t:" opt; do
+	case "$opt" in
+		s)
+			launcher="$OPTARG"
+			;;
+		t)
+			mimetype="$OPTARG"
+			;;
+	esac
 done
+
+# If launcher = "", assume running in terminal, so some programs change
+#if [ -z "$launcher" ]; then
+#	xedit=${EDITOR:-vi}
+#fi
+
+shift `expr $OPTIND - 1`
+toopen=$@
+
+if [ -n "$1" ]; then
+	while [ -n "$1" ]; do
+		openfile "$1" &
+		shift
+	done
+else
+	dmenu-filepicker | while read line; do
+		openfile "$line" &
+	done
+fi
