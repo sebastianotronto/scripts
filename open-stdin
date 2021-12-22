@@ -9,4 +9,4 @@ folder=${TMPDIR:-/tmp}
 
 tempfile=$(mktemp -p "$folder")
 
-cat > "$tempfile" && open-file -s spawn -t "$1" "$tempfile"
+cat > "$tempfile" && open-file $@ "$tempfile"

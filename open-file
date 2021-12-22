@@ -20,6 +20,7 @@ xedit=${XEDITOR:-gedit}
 
 openfile() {
 	f="$@"
+	localmime="$mimetype"
 
 	[ ! -f "$f" ] && echo "$f: bad argument" && exit 1
 	[ -z "$mimetype" ] && localmime="$(file --mime-type "$f" -bL)"
