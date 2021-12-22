@@ -35,6 +35,7 @@ SCRIPTS =       addressgrep \
 		xedit-filter \
 		xkboptions \
 		xplumb \
+		xprop-active-window-id \
 		xwallpaper-random-notify
 
 install:

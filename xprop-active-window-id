@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Get the ID of the current active window (hexadecimal)
+# Requires: xprop
+
+xprop -root | grep _NET_ACTIVE_WINDOW | head -1 | sed 's/.* //'
