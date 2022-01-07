@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Empty trash (see trashrm)
+
+trashfolder=${TRASH:-$XDG_DATA_HOME/mytrash}
+
+rm -r $trashfolder/*

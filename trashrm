@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Move files to a trash folder
+
+trashfolder=${TRASH:-$XDG_DATA_HOME/mytrash}
+thisfolder="$trashfolder/$(date +'%Y-%m-%d-%s')"
+
+mkdir -p "$thisfolder"
+mv $@ "$thisfolder"

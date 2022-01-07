@@ -29,6 +29,8 @@ SCRIPTS =       addressgrep \
 		templess \
 		togglemute \
 		translate \
+		trashrm \
+		trashempty \
 		urlgrep \
 		volume \
 		websearch \
