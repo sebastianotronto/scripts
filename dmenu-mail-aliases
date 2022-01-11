@@ -8,4 +8,4 @@ menu=${MENU:-dmenu}
 menuopts="-l 20"
 aliasfile="$XDG_CONFIG_HOME/mblaze/aliases"
 
-xargs printf "%-40s %s\n" <"$aliasfile" | $menu $menuopts | awk '{print $2}'
+$menu $menuopts <"$aliasfile" | awk '{print $NF}' 
