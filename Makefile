@@ -24,6 +24,7 @@ SCRIPTS =       addressgrep \
 		popup-cal12 \
 		popup-cal3 \
 		popup-terminal \
+		sel \
 		sfeed-browser \
 		spawn \
 		templess \
