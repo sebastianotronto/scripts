@@ -9,9 +9,10 @@
 #	cp: copy to current dir, possbily after editing filenames
 #	edit: open selection in editor
 #	mv: move to current dir, possbily after editing filenames
+#	open: open files using open-file
 #	rm: remove selected files and clear selection
 
-# Requires: dmenu (or similar), trashrm (optional)
+# Requires: dmenu (or similar), trashrm (optional), open-file (for open only)
 
 # TODO: add possibility of specifying file.
 # TODO 2: The usage of paste(1) is a bit of a hack, and for example it does
@@ -35,7 +36,6 @@ cphere() {
 		fnew=$(echo "$f" | sed 's/.*\t//')
 		cp -R "$fold" ./"$fnew"
 	done
-	clear
 }
 
 remove() {
@@ -80,6 +80,7 @@ case "$1" in
 		;;
 	cp)
 		cphere
+		clear
 		;;
 	edit)
 		$editor "$file"
@@ -87,6 +88,12 @@ case "$1" in
 	mv)
 		cphere
 		remove
+		clear
+		;;
+	open)
+		while read f; do
+			open-file "$f"
+		done < "$file"
 		;;
 	rm)
 		remove
