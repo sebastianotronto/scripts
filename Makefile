@@ -1,7 +1,6 @@
 PREFIX = /usr/local
 
 SCRIPTS =       addressgrep \
-		backup-config \
 		battery-checknow \
 		battery-status \
 		brightness \
