@@ -4,8 +4,7 @@
 
 # Requires: dmenu-filepicker, open-url
 
-#dir=$XDG_DATA_HOME/bookmarks
-dir=$HOME/Dropbox/bookmarks # TODO: change it when I have a better sync system
+dir=$HOME/box/bookmarks
 
 echo "$(dmenu-filepicker $dir)" | while read line; do
 	cat "$line"
