@@ -23,6 +23,7 @@ SCRIPTS =       addressgrep \
 		popup-cal12 \
 		popup-cal3 \
 		popup-terminal \
+		secret \
 		sel \
 		sfeed-browser \
 		spawn \
@@ -40,6 +41,8 @@ SCRIPTS =       addressgrep \
 		xprop-active-window-id \
 		xwallpaper-random-notify
 
+all: install
+
 install:
 	for s in ${SCRIPTS}; do\
 		cp -f $$s ${DESTDIR}${PREFIX}/bin ; \
@@ -49,4 +52,4 @@ install:
 uninstall:
 	for s in ${SCRIPTS}; do rm -rf ${DESTDIR}${PREFIX}/bin/$$s ; done
 
-.PHONY: install uninstall
+.PHONY: all install uninstall

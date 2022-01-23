@@ -17,7 +17,7 @@ filepicker="dmenu-filepicker" # Try "nnn -p -"
 menu=${MENU:-dmenu}
 menuopts="-l 35 -i"
 urlopener=open-url
-sfd="$XDG_CONFIG_HOME/sfeed"
+sfd="box/sfeed"
 showlast=10
 
 # Might add more stuff later
