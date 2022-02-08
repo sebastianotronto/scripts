@@ -30,8 +30,7 @@ SCRIPTS =       addressgrep \
 		templess \
 		togglemute \
 		translate \
-		trashrm \
-		trashempty \
+		trash \
 		urlgrep \
 		volume \
 		websearch \

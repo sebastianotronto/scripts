@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Simple trash management. Files are moved to a directory named with the
+# current date.
+
+# Usage: trash [rm FILE(s)|ls|empty]
+# Pretty self-explanatory
+
+trashfolder=${TRASH:-$XDG_DATA_HOME/mytrash}
+
+if [ -z "$1" ]; then
+	echo "usage: trash [rm FILE(s)|ls|empty]"
+else
+case "$1" in
+	empty)
+		rm -r $trashfolder/*
+		;;
+	ls)
+		ls $trashfolder
+		;;
+	rm)
+		thisfolder="$trashfolder/$(date +'%Y-%m-%d-%s')"
+		mkdir -p "$thisfolder"
+		shift 1
+		mv "$@" "$thisfolder"
+		;;
+		
+	*)
+		echo "$1: not a valid command"
+		;;
+esac
+fi
