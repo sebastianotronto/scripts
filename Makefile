@@ -12,7 +12,6 @@ SCRIPTS =       addressgrep \
 		dmenu-unmount \
 		dmenu-urlselect \
 		dmenu-websearch \
-		dunst-toggle \
 		mail-checknow \
 		mail-compose \
 		notify-battery \

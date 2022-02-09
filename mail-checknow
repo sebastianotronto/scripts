@@ -1,10 +1,11 @@
 #!/bin/sh
 
 # Check for new email, save result to file.
-# Requires: mpop, notify-send
+# Requires: mpop, notify-send or similar
 
 file="$XDG_DATA_HOME/newmail"
-notify="notify-send"
+#notify="notify-send"
+notify=herbe
 
 l=$(cat "$file")
 n=$(mpop -s | awk '/new*./{print $2}')

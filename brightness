@@ -1,7 +1,12 @@
 #!/bin/sh
 
 # Increase / decrease brightness, and pops up a notification
-# Requires: xbacklight, notify-send
+# Requires: xbacklight, a notification program such as herbe or notify-send
 # Usage: brightness {inc|dec} n
 
-xbacklight -$1 $2 && notify-send "Brightness: $(xbacklight | sed 's/\..*$//')%"
+#notify="notify-send"
+notify="herbe"
+
+pkill herbe # comment this too if not using herbe
+
+xbacklight -$1 $2 && $notify "Brightness: $(xbacklight | sed 's/\..*$//')%"

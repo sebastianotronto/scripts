@@ -1,4 +1,10 @@
 #!/bin/sh
 
 # Popup battery notification, based on the script battery-status
-notify-send "Battery" "$(battery-status)"
+
+# Requires: notify-send or similar
+
+#notify=notify-send
+notify=herbe
+
+$notify "Battery" "$(battery-status)"

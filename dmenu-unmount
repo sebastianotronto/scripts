@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # Prompts selection for mounted devices and unmounts the selected one
-# Requires: udevil, dmenu (or similar), notify-send (optional)
+# Requires: udevil, dmenu (or similar), notify-send or similar (optional)
 
 menu=${MENU:-dmenu}
-writeout="notify-send" # Change this to whatever you want, e.g. echo
+writeout=herbe # Change this to whatever you want, e.g. echo or notify-send
 
 listdev=$(grep "media" /proc/mounts | sed 's/\/media.*\///g' | \
           awk '{print $1" ("$2")"}')
