@@ -4,10 +4,12 @@
 
 # Requires: notify-send or similar
 
+# TODO: check if it still works with notify-send
+
 #notify=notify-send
 notify=herbe
 
 t=$(date +"%H:%M:%S")
-d=$(date +"%d\ %B\ %Y,\ %A")
+d=$(date +"%d %B %Y, %A")
 
 $notify "$t" "$d"
