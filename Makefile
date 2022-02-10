@@ -4,6 +4,7 @@ SCRIPTS =       addressgrep \
 		battery-checknow \
 		battery-status \
 		brightness \
+		config-backup \
 		dmenu-bookmarks \
 		dmenu-dwm-sessionmanager \
 		dmenu-filepicker \

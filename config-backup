@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Copy my config files to my backup folder
+
+folder=$HOME/box/configbackups
+
+dotfiles=".bash_profile .bashrc .inputrc .mblaze .nexrc .tmux.conf .xinitrc"
+config="colors fontconfig git imv mpop msmtp zathura"
+src="clipmenu clipnotify dmenu dwm herbe st"
+
+# copy
+
+for i in $dotfiles; do cp -R $HOME/$i $folder/home/; done
+for i in $config;   do cp -R $HOME/.config/$i $folder/config/; done
+for i in $src;      do cp -R $HOME/.local/src/$i $folder/src/; done
+
+# redact
+
+rm $folder/config/git/credentials
+
+sed 's/^password .*/password REDACTED/' \
+	< $folder/config/mpop/config > $folder/config/mpop/config.redacted
+rm $folder/config/mpop/config
+sed 's/^password .*/password REDACTED/' \
+	< $folder/config/msmtp/config > $folder/config/msmtp/config.redacted
+rm $folder/config/msmtp/config
