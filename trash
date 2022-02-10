@@ -6,7 +6,7 @@
 # Usage: trash [rm FILE(s)|ls|empty]
 # Pretty self-explanatory
 
-trashfolder=${TRASH:-$XDG_DATA_HOME/mytrash}
+trashfolder=$XDG_DATA_HOME/mytrash
 
 if [ -z "$1" ]; then
 	echo "usage: trash [rm FILE(s)|ls|empty]"
