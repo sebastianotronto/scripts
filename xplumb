@@ -5,7 +5,8 @@
 # some possibilities (open file, open url, man page...). If none is matched,
 # a choice is prompted.
 
-# Requires: dmenu (or similar), mail-compose, open-file, websearch, xsel
+# Requires: dmenu (or similar), mail-compose, open-file, terminal, websearch,
+#           xedit, xsel
 
 # TODO:
 #	send mail to email address;
@@ -13,8 +14,6 @@
 #	choice: pipe to another program
 
 browser=${BROWSER:-firefox}
-terminal=${TERMINAL:-xterm}
-xeditor=${XEDITOR:-gedit}
 menu=${MENU:-dmenu}
 menuopts="-l 10"
 
@@ -34,7 +33,7 @@ choice() {
 	elif [ "$chosen" = "edit" ]; then
 		f=$(mktemp)
 		xsel > "$f"
-		$xeditor "$f"
+		xedit "$f"
 	fi
 }
 
@@ -47,7 +46,7 @@ tryman() {
 	number=$(echo "$1" | sed 's/[^1-8]//g')
 	name=$(echo "$1" | sed 's/([1-8])//g' | sed 's/ //g')
 	if [ $(man -w "$number" "$name" | wc -l) = 1 ]; then
-		$terminal -e man "$number" "$name"
+		terminal -e man "$number" "$name"
 		return 0
 	else
 		return 1

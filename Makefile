@@ -27,12 +27,14 @@ SCRIPTS =       addressgrep \
 		sfeed-browser \
 		spawn \
 		templess \
+		terminal \
 		togglemute \
 		translate \
 		trash \
 		urlgrep \
 		volume \
 		websearch \
+		xedit \
 		xedit-filter \
 		xkboptions \
 		xplumb \

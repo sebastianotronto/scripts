@@ -2,4 +2,4 @@
 
 # TODO maybe I want to run e.g. tmux in this?
 
-st -T "stfloat" -g 85x25+550+300 $@
+st -T "stfloat" -g 85x25+550+300 tmux new-session $@

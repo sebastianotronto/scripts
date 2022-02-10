@@ -4,19 +4,19 @@
 # Launches files based on their mimetypes
 # Use option -s devour to swallow or -s " " to open normally from terminal
 # Use -t to specify mimetype
-# Requires: dmenu_path or similar (fallback)
-#           dmenu-filepicker
+# Requires: dmenu_path or similar (fallback), dmenu-filepicker
 
 menu=${MENU:-dmenu}
 
-video=${VIDEOPLAYER:-mpv}
-music=${MUSICPLAYER:-mpv}
-pdf=${VIEWER:-zathura}
-img=${IMAGEVIEWER:-imv}
-word=${TEXTDOCUMENT:-libreoffice}
-sheet=${SPREADSHEET:-libreoffice}
-html=${HTMLVIEWER:-firefox}
-xedit=${XEDITOR:-gedit}
+# Change default apps here
+video="mpv"
+music="mpv --player-operation-mode=pseudo-gui"
+pdf="zathura"
+img="imv"
+word="libreoffice"
+sheet="libreoffice"
+html="firefox --new-window"
+xedit="xedit"
 
 openfile() {
 	f="$@"

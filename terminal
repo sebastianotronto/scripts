@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# My default terminal
+
+st -e tmux new-session $@

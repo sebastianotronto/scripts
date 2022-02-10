@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Popup $TERMINAL displaying cal -3
+# Popup terminal displaying cal -3
 # Requires: st (suckless terminal)
 
 st -T "stfloat" -g 68x11+620+450 -e sh -c 'cal -3; read x'
