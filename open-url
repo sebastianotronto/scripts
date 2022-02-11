@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Open link in preferred application
-# Requires: mail-compose, xsel (optional)
+# Requires: mail-compose, spawn, xsel (optional)
 
 browser=${BROWSER:-firefox}
 imageviewer=${IMAGEVIEWER:-imv}
