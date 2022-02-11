@@ -13,7 +13,10 @@ if [ -z "$1" ]; then
 else
 case "$1" in
 	empty)
-		rm -r $trashfolder/*
+		# little check
+		if [ -n "$trashfolder" ]; then
+			rm -rf $trashfolder/*
+		fi
 		;;
 	ls)
 		ls $trashfolder
