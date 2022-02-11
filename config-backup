@@ -6,13 +6,13 @@ folder=$HOME/box/configbackups
 
 dotfiles=".bash_profile .bashrc .inputrc .mblaze .nexrc .tmux.conf .xinitrc"
 config="colors fontconfig git imv mpop msmtp zathura"
-src="clipmenu clipnotify dmenu dwm herbe st"
+src="dmenu dwm herbe st"
 
 # copy
 
-for i in $dotfiles; do cp -R $HOME/$i $folder/home/; done
-for i in $config;   do cp -R $HOME/.config/$i $folder/config/; done
-for i in $src;      do cp -R $HOME/.local/src/$i $folder/src/; done
+for i in $dotfiles; do cp -Rf $HOME/$i $folder/home/; done
+for i in $config;   do cp -Rf $HOME/.config/$i $folder/config/; done
+for i in $src;      do cp -Rf $HOME/.local/src/$i $folder/src/; done
 
 # redact
 
