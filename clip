@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# A primitive clipboard manager. Saves the current selection to a temporary
+# file and shows all saved selections in dmenu for the user to select one.
+# It does not check for duplicates and it fails if there it can't
+# create the temporary directory with the designated name.
+
+# Requires: xsel, dmenu
+
+# TODO: improve formatting in dmenu
+
+menu="dmenu"
+menuopts="-l 25"
+
+dir="/tmp/clipdir"
+mkdir -p "$dir"
+
+file="$(mktemp -p $dir $(date +%s).XXXXX)"
+xsel > "$file"
+
+list="$(mktemp)"
+ls $dir > $list;
+
+lines="$(mktemp)"
+for f in $dir/*; do
+	nlines=$(expr 1 + "$(wc -l $f | awk '{print $1}')")
+	fclean=$(echo $f | sed "s|$dir\/||")
+	printf "$fclean ($nlines) |    $(head -n 1 $f)\n" >> "$lines"
+done
+
+selected=$(sort -r $lines | $menu $menuopts | awk '{print $1}')
+if [ -n "$selected" ]; then
+	xsel -ib < "$dir/$selected"
+fi
