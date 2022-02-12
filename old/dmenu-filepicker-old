@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# A dmenu-based file picker (prints selected file to stdout)
+# Requires: dmenu (or similar)
+# Usage: dmenu-filepicker [path]
+
+menu=${MENU:-dmenu}
+menuopts="-i -l 15"
+
+basedir="$(pwd)"
+
+next="${@:-$(pwd)}"
+
+while true; do
+	if [ -z "$next" ]; then
+		break
+	elif [ "$next" = "." ]; then
+		pwd
+		break
+	elif [ -d "$next" ]; then
+		cd "$next"
+		next=$(ls -a | $menu $menuopts)
+	else
+		echo "$next" | while read line; do
+			echo "$(pwd)/$line"
+		done
+		break
+	fi
+done
+
+cd "$basedir"

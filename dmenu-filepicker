@@ -4,28 +4,22 @@
 # Requires: dmenu (or similar)
 # Usage: dmenu-filepicker [path]
 
-menu=${MENU:-dmenu}
+menu=dmenu
 menuopts="-i -l 15"
 
-basedir="$(pwd)"
-
-next="${@:-$(pwd)}"
+fullpath=$(realpath ${@:-$(pwd)})
 
 while true; do
-	if [ -z "$next" ]; then
+	if [ "$sel" = "." ]; then
+		echo "$fullpath" | sed 's|/\.||'
 		break
-	elif [ "$next" = "." ]; then
-		pwd
-		break
-	elif [ -d "$next" ]; then
-		cd "$next"
-		next=$(ls -a | $menu $menuopts)
+	elif [ -d "$fullpath" ]; then
+		sel=$(ls -a "$fullpath" | sed 's|.*/||' | $menu $menuopts)
+		fullpath=$(printf "$fullpath/%s\n" $sel)
 	else
-		echo "$next" | while read line; do
-			echo "$(pwd)/$line"
-		done
+		echo "$fullpath"
 		break
 	fi
-done
 
-cd "$basedir"
+	[ -z "$sel" ] && break
+done
