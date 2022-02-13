@@ -15,7 +15,7 @@ while true; do
 		break
 	elif [ -d "$fullpath" ]; then
 		sel=$(ls -a "$fullpath" | sed 's|.*/||' | $menu $menuopts)
-		fullpath=$(printf "$fullpath/%s\n" "$sel")
+		fullpath=$(echo "$sel" | sed "s|^|$fullpath/|")
 	else
 		echo "$fullpath"
 		break
