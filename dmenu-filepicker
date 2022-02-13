@@ -15,7 +15,11 @@ while true; do
 		break
 	elif [ -d "$fullpath" ]; then
 		sel=$(ls -a "$fullpath" | sed 's|.*/||' | $menu $menuopts)
-		fullpath=$(echo "$sel" | sed "s|^|$fullpath/|")
+		if [ "$sel" = ".." ]; then
+			fullpath=$(echo "$fullpath" | sed "s|/[^/]*$||")
+		else
+			fullpath=$(echo "$sel" | sed "s|^|$fullpath/|")
+		fi
 	else
 		echo "$fullpath"
 		break
