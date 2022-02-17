@@ -1,9 +1,11 @@
 #!/bin/sh
 
-# A primitive clipboard manager. Saves the current selection to a temporary
-# file and shows all saved selections in dmenu for the user to select one.
-# It does not check for duplicates and it fails if there it can't
-# create the temporary directory with the designated name.
+# A primitive clipboard manager. Saves the current selection and clipboard
+# to a temporary file and shows all saved selections in dmenu for the user
+# to select one. Duplicate selections are avoided.
+
+# Bugs (wontfix): the program fails if it can't create the temporary
+# directory with the designated name.
 
 # Requires: xsel, dmenu
 
@@ -15,8 +17,16 @@ menuopts="-l 25"
 dir="/tmp/clipdir"
 mkdir -p "$dir"
 
-file="$(mktemp -p $dir $(date +%s).XXXXX)"
-xsel > "$file"
+file1="$(mktemp -p $dir $(date +%s).XXXXX)"
+file2="$(mktemp -p $dir $(date +%s)b.XXXX)"
+xsel    > "$file1"
+xsel -b > "$file2"
+
+# Avoid duplicates
+for f in $dir/*; do
+	[ "$f" != "$file1" ] && if diff "$f" "$file1"; then rm "$file1"; fi
+	[ "$f" != "$file2" ] && if diff "$f" "$file2"; then rm "$file2"; fi
+done
 
 list="$(mktemp)"
 ls $dir > $list;
