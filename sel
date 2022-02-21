@@ -61,12 +61,14 @@ cphere() {
 	if [ "$(wc -l $file  | awk '{print $1}')" != \
 	     "$(wc -l $file2 | awk '{print $1}')" ]; then
 		echo "Error reading new file names"
+		return 1
 	else
 		paste "$file" "$file2" | while read f; do
 			fold=$(echo "$f" | sed 's/\t.*//')
 			fnew=$(echo "$f" | sed 's/.*\t//')
 			cp -R "$fold" ./"$fnew"
 		done
+		return 0
 	fi
 }
 
@@ -94,23 +96,19 @@ case "$1" in
 		clear
 		;;
 	cp)
-		cphere
-		clear
+		cphere && clear
 		;;
 	edit)
 		$editor "$file"
 		;;
 	mv)
-		cphere
-		remove
-		clear
+		cphere && (remove; clear)
 		;;
 	open)
 		open
 		;;
 	rm)
-		remove
-		clear
+		remove && clear
 		;;
 	*)
 		echo "$1: not a valid sel command"
