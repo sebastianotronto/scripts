@@ -13,8 +13,9 @@ while true; do
 	if [ "$sel" = "." ]; then
 		echo "$fullpath" | sed 's|/\.||'
 		break
-	elif [ -d "$fullpath" ]; then
-		sel=$(ls -a "$fullpath" | sed 's|.*/||' | $menu $menuopts)
+	elif [ -d "$fullpath" ] || [ -z "$fullpath" ]; then
+		if [ -z "$fullpath" ]; then fp="/"; else fp="$fullpath"; fi
+		sel=$(ls -a "$fp" | sed 's|.*/||' | $menu $menuopts)
 		if [ "$sel" = ".." ]; then
 			fullpath=$(echo "$fullpath" | sed "s|/[^/]*$||")
 		else
