@@ -66,9 +66,8 @@ cphere() {
 		paste "$file" "$file2" | while read f; do
 			fold=$(echo "$f" | sed 's/\t.*//')
 			fnew=$(echo "$f" | sed 's/.*\t//')
-			cp -R "$fold" ./"$fnew"
+			cp -R "$fold" ./"$fnew" || return 1
 		done
-		return 0
 	fi
 }
 
