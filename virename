@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# Rename all files in the current directory with a visual editor.
+# Similar to sel add all && sel mv, but it actually works.
+
+file=$(mktemp)
+file2=$(mktemp)
+editor=${EDITOR:-vi}
+
+ls | tee "$file" > "$file2"
+$editor "$file2"
+
+if [ "$(wc -l $file  | awk '{print $1}')" != \
+     "$(wc -l $file2 | awk '{print $1}')" ]; then
+	echo "Error reading new file names"
+else
+	paste "$file" "$file2" | while read f; do
+		fold=$(echo "$f" | sed 's/\t.*//')
+		fnew=$(echo "$f" | sed 's/.*\t//')
+		if [ "$fold" != "$fnew" ]; then
+			mv "$fold" "$fnew" \
+			|| echo "Error renaming $fold to $fnew"
+		fi
+	done
+fi

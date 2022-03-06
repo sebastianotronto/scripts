@@ -17,6 +17,8 @@
 # TODO: add possibility of specifying file.
 # TODO 2: The usage of paste(1) is a bit of a hack, and for example it does
 # not work if filenames contain tab characters. Fix this.
+# Bug (probably not fixing this, use virename): moving moving a file to
+# itself gives an error and rm is not run.
 
 file="$XDG_DATA_HOME/selectedfiles"
 menu=${MENU:-dmenu}

@@ -34,6 +34,7 @@ SCRIPTS =       addressgrep \
 		translate \
 		trash \
 		urlgrep \
+		virename \
 		volume \
 		websearch \
 		xedit \
