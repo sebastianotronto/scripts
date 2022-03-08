@@ -3,7 +3,7 @@
 # Check battery state, save result to a file. Pop up notification if changed.
 # Requires: battery-status, notify-battery
 
-file="$XDG_DATA_HOME/batterystatus"
+file="${XDG_DATA_HOME:-$HOME/.local/share}/batterystatus"
 low=20
 crit=15
 
