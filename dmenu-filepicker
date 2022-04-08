@@ -7,7 +7,7 @@
 menu=dmenu
 menuopts="-i -l 15"
 
-fullpath=$(realpath ${@:-$(pwd)})
+fullpath=$(realpath ${@:-"$(pwd)"})
 
 while true; do
 	if [ "$sel" = "." ]; then
