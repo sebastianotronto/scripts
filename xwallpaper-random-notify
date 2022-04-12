@@ -13,4 +13,5 @@ pic=$(ls $folder | sort -R | head -1)
 #feh --bg-fill --no-fehbg $folder/$pic
 xwallpaper --zoom $folder/$pic
 
-$notify "Background of the day" $pic
+# Uncomment to notify
+#$notify "Background of the day" $pic
