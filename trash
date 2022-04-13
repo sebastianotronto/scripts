@@ -12,9 +12,6 @@ if [ -z "$1" ]; then
 	echo "usage: trash [rm FILE(s)|ls|empty]"
 else
 case "$1" in
-	cd)
-		cd $trashfolder
-		;;
 	empty)
 		# little check
 		if [ -n "$trashfolder" ]; then
