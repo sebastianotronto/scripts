@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Opens a window streaming from the webcam
+# Requires: ffplay (part of ffmpeg)
+
+ffplay -i /dev/video0

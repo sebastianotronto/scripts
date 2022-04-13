@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# One-line screen record with ffmpeg (I always forget the command)
+# Requires: ffmpeg
+
+outfile=${1:-output.mkv}
+
+ffmpeg -f x11grab -i :0 -f pulse -i default $outfile

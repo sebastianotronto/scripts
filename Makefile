@@ -14,6 +14,8 @@ SCRIPTS =       addressgrep \
 		dmenu-unmount \
 		dmenu-urlselect \
 		dmenu-websearch \
+		ffmpeg-screenrecord \
+		ffmpeg-facecam \
 		mail-checknow \
 		mail-compose \
 		notify-battery \
