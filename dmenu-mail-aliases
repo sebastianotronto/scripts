@@ -6,6 +6,6 @@
 
 menu=${MENU:-dmenu}
 menuopts="-l 20"
-aliasfile="$XDG_CONFIG_HOME/mblaze/aliases"
+aliasfile="$HOME/.mblaze/aliases"
 
 $menu $menuopts <"$aliasfile" | awk '{print $NF}' 
