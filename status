@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Prints some status info to stdout. Includes:
+#	- date and time
+#	- battery
+#	- wifi (requires nmcli)
+#	- past reminders, if any (requires sdep and sdep-list)
+
+# Usage: status [separator]
+
+sep=${1:-" | "}
+
+time=$(date +"%H:%M:%S")
+date=$(date +"%d %B %Y, %A")
+
+bat="/sys/class/power_supply/BAT0"
+if [ -d $bat ]; then
+	battery="Battery: $(cat $bat/capacity) $(cat $bat/status)"
+else
+	battery="No battery"
+fi
+
+network=$(nmcli device status | head -n 2 | tail -n 1 | awk '{print "Network: " $4}')
+
+events=$(sdep-list past | wc -l)
+
+printf "$time$sep$date$sep$battery$sep$network"
+[ -n "$events" ] && printf "$sep$events TODO tasks"
+printf "\n"

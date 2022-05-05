@@ -18,8 +18,6 @@ SCRIPTS =       addressgrep \
 		ffmpeg-facecam \
 		mail-checknow \
 		mail-compose \
-		notify-battery \
-		notify-time \
 		open-file \
 		open-stdin \
 		open-url \
@@ -30,6 +28,7 @@ SCRIPTS =       addressgrep \
 		sel \
 		sfeed-browser \
 		spawn \
+		status \
 		templess \
 		terminal \
 		togglemute \
