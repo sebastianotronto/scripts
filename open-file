@@ -2,8 +2,6 @@
 
 # Inspired by https://github.com/salman-abedin/launch.sh
 # Launches files based on their mimetypes
-# Use option -s devour to swallow or -s " " to open normally from terminal
-# Use -t to specify mimetype
 # Requires: dmenu_path or similar (fallback), dmenu-filepicker
 
 menu=${MENU:-dmenu}

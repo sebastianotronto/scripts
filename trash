@@ -6,6 +6,9 @@
 # Usage: trash [rm FILE(s)|ls|empty]
 # Pretty self-explanatory
 
+# ksh completion
+# set -A complete_trash_1 rm ls empty
+
 trashfolder=$XDG_DATA_HOME/mytrash
 
 if [ -z "$1" ]; then

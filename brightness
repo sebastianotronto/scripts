@@ -4,6 +4,10 @@
 # Requires: xbacklight, a notification program such as herbe or notify-send
 # Usage: brightness {inc|dec} n
 
+# ksh completion
+# set -A complete_brightness_1 inc dec
+# set -A complete_brightness_2 5
+
 #notify="notify-send"
 notify="herbe"
 
