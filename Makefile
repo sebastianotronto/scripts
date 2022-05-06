@@ -18,6 +18,7 @@ SCRIPTS =       addressgrep \
 		ffmpeg-facecam \
 		mail-checknow \
 		mail-compose \
+		mblaze-extras \
 		open-file \
 		open-stdin \
 		open-url \

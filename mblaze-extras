@@ -1,0 +1,70 @@
+#!/bin/sh
+
+# Useful extra commands for mblaze
+
+# Requires: mblaze, mpop
+
+# Usage: mblaze-extras command
+# List of commands:
+#	get [filter]
+#	mv [folder]
+#	pick [field]
+#	save
+#	scan [folder]
+
+menu=${MENU:-dmenu}
+mdir=$HOME/mail
+mpopdir=$HOME/.config/mpop
+
+mbextra_scan() {
+	folder=${1:-inbox}
+	mlist -t $mdir/$1 | mthread | mseq -S
+	mscan
+}
+
+mbextra_get() {
+	mpop --filter=$mpopdir/filter-$1.sh
+	minc -q $mdir/inbox
+	mbextra_scan inbox
+}
+
+mbextra_pick() {
+	field=$1
+	shift
+	mpick -t "$field =~~ \"$@\""
+}
+
+mbextra_save() {
+	dir=$2
+	[ -z "$dir" ] && dir=$(dmenu-filepicker)
+	mkdir -p "$dir"
+
+	if [ ! -d "$dir" ]; then
+		echo "No directory selected, skipping."
+	else
+		cd "$dir"
+		mshow -x $1
+	fi
+}
+
+if [ -z "$1" ]; then
+	echo "Usage: mblaze-extras COMMAND"
+elif [ "$1" = "scan" ]; then
+	mbextra_scan $2
+elif [ "$1" = "mv" ]; then
+	folder=$2
+	if [ -n "$folder" ]; then
+		shift; shift
+		echo $@ $mdir/$folder | xargs mrefile
+	else
+		echo "No folder given, not moved"
+	fi
+elif [ "$1" = "get" ]; then
+	mbextra_get $2
+elif [ "$1" = "save" ]; then
+	shift
+	mbextra_save $@
+elif [ "$1" = "pick" ]; then
+	shift
+	mbextra_pick $@
+fi
