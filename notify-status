@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Simple script to send a notification displaying the output of status
+
+# Requires: status, herbe (or similar, e.g. notify-send)
+
+herbe "$(status '\n')"

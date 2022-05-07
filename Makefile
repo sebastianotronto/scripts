@@ -19,6 +19,7 @@ SCRIPTS =       addressgrep \
 		mail-checknow \
 		mail-compose \
 		mblaze-extras \
+		notify-status \
 		open-file \
 		open-stdin \
 		open-url \
