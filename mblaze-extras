@@ -18,7 +18,7 @@ mpopdir=$HOME/.config/mpop
 
 mbextra_scan() {
 	folder=${1:-inbox}
-	mlist -t $mdir/$1 | mthread | mseq -S
+	mlist -t $mdir/$folder | mthread | mseq -S
 	mscan
 }
 
