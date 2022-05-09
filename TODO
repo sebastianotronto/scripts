@@ -1,0 +1,3 @@
+* Modify all dmenu-* scripts to optionally use another menu,
+  like edit-menu or vis-menu (or just use environment variables?)
+* sfeed-browser: optionally just write link to stdout (or to xsel -i)
