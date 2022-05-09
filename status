@@ -20,7 +20,8 @@ else
 	battery="No battery"
 fi
 
-network=$(nmcli device status | head -n 2 | tail -n 1 | awk '{print "Network: " $4}')
+#network=$(nmcli device status | head -n 2 | tail -n 1 | awk '{print "Network: " $4}')
+network="Network: $(nmcli device status | head -n 2 | tail -n 1 | sed 's/.*  //')"
 
 events=$(sdep-list past | wc -l)
 
