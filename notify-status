@@ -4,4 +4,4 @@
 
 # Requires: status, herbe (or similar, e.g. notify-send)
 
-herbe "$(status '\n')"
+herbe "$(status '\n\n')"
