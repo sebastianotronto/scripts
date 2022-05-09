@@ -26,5 +26,5 @@ network="Network: $(nmcli device status | head -n 2 | tail -n 1 | sed 's/.*  //'
 events=$(sdep-list past | wc -l)
 
 printf "$time$sep$date$sep$battery$sep$network"
-[ -n "$events" ] && printf "$sep$events TODO tasks"
+[ "$events" != "0" ] && printf "$sep$events TODO task(s)"
 printf "\n"
