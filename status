@@ -21,7 +21,10 @@ else
 fi
 
 #network=$(nmcli device status | head -n 2 | tail -n 1 | awk '{print "Network: " $4}')
-network="Network: $(nmcli device status | head -n 2 | tail -n 1 | sed 's/.*  //')"
+# NetworkManager has a dreadful command line interface
+# It makes cry every time
+# pls help
+network="Network: $(nmcli device status | head -n 2 | tail -n 1 | sed 's/ *$//' | sed 's/.*  //')"
 
 events=$(sdep-list past | wc -l)
 
