@@ -4,6 +4,7 @@
 # Requires: battery-status, notify-battery
 
 file="${XDG_DATA_HOME:-$HOME/.local/share}/batterystatus"
+notify=herbe
 low=20
 crit=15
 
@@ -15,7 +16,7 @@ status=$(echo "$new" | awk '{print $2}')
 [ "$status" = "Discharging" ] && [ $level -le $crit ] && status="Critical"
 
 if [ "$status" != "$(cat $file)" ] || [ "$status" = "Critical" ]; then
-	notify-battery
+	$notify "Battery" "$(battery-status)"
 fi
 
 echo "$status" > "$file"
