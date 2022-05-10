@@ -1,5 +1,4 @@
-* Modify all dmenu-* scripts to optionally use another menu,
-  like edit-menu or vis-menu (or just use environment variables?)
+* Modify all dmenu-* scripts to optionally use another menu, like vis-menu (slmenu)
 * sfeed-browser: optionally just write link to stdout (or to xsel -i)
 
 * Refactor: review all scripts and adapt to common style
