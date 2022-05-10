@@ -4,3 +4,5 @@
 
 * Refactor: review all scripts and adapt to common style
   Configuration file (read only at "make" time) for default apps etc..
+
+* Find a proper copy-left license
