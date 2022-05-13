@@ -16,7 +16,6 @@ SCRIPTS =       addressgrep \
 		dmenu-websearch \
 		ffmpeg-screenrecord \
 		ffmpeg-facecam \
-		mail-checknow \
 		mail-compose \
 		mblaze-extras \
 		notify-status \
