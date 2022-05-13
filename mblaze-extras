@@ -7,7 +7,6 @@
 # Usage: mblaze-extras command
 # List of commands:
 #	get [filter]
-#	mv [folder]
 #	pick [field]
 #	save
 #	scan [folder]
@@ -51,14 +50,6 @@ if [ -z "$1" ]; then
 	echo "Usage: mblaze-extras COMMAND"
 elif [ "$1" = "scan" ]; then
 	mbextra_scan $2
-elif [ "$1" = "mv" ]; then
-	folder=$2
-	if [ -n "$folder" ]; then
-		shift; shift
-		echo $@ $mdir/$folder | xargs mrefile
-	else
-		echo "No folder given, not moved"
-	fi
 elif [ "$1" = "get" ]; then
 	mbextra_get $2
 elif [ "$1" = "save" ]; then

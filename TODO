@@ -1,6 +1,9 @@
 * Modify all dmenu-* scripts to optionally use another menu, like vis-menu (slmenu)
   Do this by taking an optional $1 which is the name of the program to use
   (optional $dir argument is removed: fix dmenu-bookmarks simply using cd)
+* Big problem: slmenu does not allow multiple selections; this is a problem
+  for my workflow for sel and for sfeed-menu (and sometimes for open-file)
+* Solution: leave dmenu default option, use slmenu for a selected few aliases in .profile
 
 * mblaze-extras: remove mmv, just use complete_mrefile=mail/...
 
