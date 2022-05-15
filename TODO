@@ -1,5 +1,3 @@
-* sel: fix globbing filenames with spaces; once done, remove "addall"
-
 * mblaze-extras: maybe remove script and just use aliases?
 
 * sfeed-browser: optionally just write link to stdout (or to xsel -i)

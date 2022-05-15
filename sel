@@ -18,9 +18,13 @@
 # TODO: The usage of paste(1) is a bit of a hack, and for example it does
 # not work if filenames contain tab characters. Fix this.
 
-# Another TODO: add by filename does not work when globbing filenames with
-# space. E.g. sel add "a file.txt" works, but sel add *.txt does not.
-# Why does this happen?
+# Kinda bug, but it's fine: when using glob expressions, the expression must
+# be quoted when it matches filenames with spaces. For example
+#    sel add *
+# works fine only if the are no filenames with spaces in the current folder;
+# on the other hand
+#    sel add "*"
+# always works.
 
 # Bug (probably not fixing this, use virename): moving a file to
 # itself gives an error and rm is not run.
