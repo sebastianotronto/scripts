@@ -1,5 +1,3 @@
-* mblaze-extras: maybe remove script and just use aliases?
-
 * sfeed-browser: optionally just write link to stdout (or to xsel -i)
 
 * Refactor: review all scripts and adapt to common style
