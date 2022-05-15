@@ -7,12 +7,20 @@
 # Bugs (wontfix): the program fails if it can't create the temporary
 # directory with the designated name.
 
-# Requires: xsel, dmenu
+# Usage: clip [-m menu]
 
-# TODO: improve formatting in dmenu
+# Requires: xsel, dmenu (or similar)
 
-menu="dmenu"
-menuopts="-l 25"
+menu="dmenu -i -l 25"
+
+while getopts "m:" opt; do
+	case "$opt" in
+		m)
+			menu="$OPTARG"
+			;;
+	esac
+done
+shift `expr $OPTIND - 1`
 
 dir="/tmp/clipdir"
 mkdir -p "$dir"
@@ -38,7 +46,7 @@ for f in $dir/*; do
 	printf "$fclean ($nlines) |    $(head -n 1 $f)\n" >> "$lines"
 done
 
-selected=$(sort -r $lines | $menu $menuopts | awk '{print $1}')
+selected=$(sort -r $lines | $menu | awk '{print $1}')
 if [ -n "$selected" ]; then
 	xsel -ib < "$dir/$selected"
 fi

@@ -2,9 +2,10 @@
 
 # Inspired by https://github.com/salman-abedin/launch.sh
 # Launches files based on their mimetypes
+# Usage: open-file [-m menu] [-s launcher] [-t mimetype] [files...]
 # Requires: dmenu_path or similar (fallback), dmenu-filepicker
 
-menu=${MENU:-dmenu}
+menu="dmenu -i -l 15"
 
 # Change default apps here
 video="mpv"
@@ -78,8 +79,11 @@ openfile() {
 	fi
 }
 
-while getopts "s:t:" opt; do
+while getopts "m:s:t:" opt; do
 	case "$opt" in
+		m)
+			menu="$OPTARG"
+			;;
 		s)
 			launcher="$OPTARG"
 			;;
@@ -88,11 +92,6 @@ while getopts "s:t:" opt; do
 			;;
 	esac
 done
-
-# If launcher = "", assume running in terminal, so some programs change
-#if [ -z "$launcher" ]; then
-#	xedit=${EDITOR:-vi}
-#fi
 
 shift `expr $OPTIND - 1`
 toopen=$@
@@ -103,7 +102,7 @@ if [ -n "$1" ]; then
 		shift
 	done
 else
-	dmenu-filepicker | while read line; do
+	dmenu-filepicker -m "$menu" | while read line; do
 		openfile "$line" &
 	done
 fi

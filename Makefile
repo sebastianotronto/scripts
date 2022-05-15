@@ -41,7 +41,6 @@ SCRIPTS =       addressgrep \
 		websearch \
 		xedit \
 		xedit-filter \
-		xkboptions \
 		xplumb \
 		xprop-active-window-id \
 		xwallpaper-random-notify

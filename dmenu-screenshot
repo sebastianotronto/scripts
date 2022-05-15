@@ -1,17 +1,26 @@
 #!/bin/sh
 
 # Screenshot utility
+# Usage: dmenu-screenshot [-m menu]
 # Requires: dmenu (or similar), imagemagick
 
-menu=${MENU:-dmenu}
-menuopts="-i -p"
-menuprompt="Select type of screenshot:"
+menu="dmenu -i"
+prompt="Select type of screenshot:"
+
+while getopts "m:" opt; do
+	case "$opt" in
+		m)
+			menu="$OPTARG"
+			;;
+	esac
+done
+shift `expr $OPTIND - 1`
 
 folder="$HOME/Pictures/screenshots"
 filename="screenshot_$(date +%Y-%m-%d-%H%M%S).png"
 filepath="${folder}/${filename}"
 
-t=$(echo "Full\nSelection" | $menu $menuopts "$menuprompt")
+t=$(echo "Full\nSelection" | $menu -p "$prompt")
 #op="" TODO: remove if not needed
 if [ "$t" = "Full" ]; then
 	op="-window root"

@@ -1,10 +1,24 @@
 #!/bin/sh
 
 # Prompts selection for mounted devices and unmounts the selected one
+# Usage: dmenu-unmount [-m menu] [-w writer]
+# Example: dmenu-unmount -m slmenu -w echo
 # Requires: udevil, dmenu (or similar), notify-send or similar (optional)
 
-menu=${MENU:-dmenu}
-writeout=herbe # Change this to whatever you want, e.g. echo or notify-send
+menu=dmenu
+writeout=herbe
+
+while getopts "m:w:" opt; do
+	case "$opt" in
+		m)
+			menu="$OPTARG"
+			;;
+		w)
+			writeout="$OPTARG"
+			;;
+	esac
+done
+shift `expr $OPTIND - 1`
 
 listdev=$(grep "media" /proc/mounts | sed 's/\/media.*\///g' | \
           awk '{print $1" ("$2")"}')

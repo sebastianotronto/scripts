@@ -2,10 +2,13 @@
 
 # A bookmark browser based on dmenu
 
-# Requires: dmenu-filepicker, open-url
+# Usage: dmenu-bookmarks [picker options...]
+
+# Requires: dmenu-filepicker (or similar), open-url
 
 dir=$HOME/box/bookmarks
+picker="dmenu-filepicker"
 
-echo "$(dmenu-filepicker $dir)" | while read line; do
+echo "$($picker "$@" $dir)" | while read line; do
 	cat "$line"
 done | xargs open-url
