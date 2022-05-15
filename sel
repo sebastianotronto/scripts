@@ -18,14 +18,6 @@
 # TODO: The usage of paste(1) is a bit of a hack, and for example it does
 # not work if filenames contain tab characters. Fix this.
 
-# Kinda bug, but it's fine: when using glob expressions, the expression must
-# be quoted when it matches filenames with spaces. For example
-#    sel add *
-# works fine only if the are no filenames with spaces in the current folder;
-# on the other hand
-#    sel add "*"
-# always works.
-
 # Bug (probably not fixing this, use virename): moving a file to
 # itself gives an error and rm is not run.
 
@@ -95,7 +87,7 @@ if [ -z "$1" ]; then
 else
 case "$1" in
 	add)
-		add $@
+		add "$@"
 		;;
 	addall)
 		add *
