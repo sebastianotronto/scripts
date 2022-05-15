@@ -1,10 +1,11 @@
 #!/bin/sh
 
 # Allow bulk operations on a list of selected files.
-# Usage: sel [command]
+# Usage: sel [-m menu] [command]
 # If no command is specified, shows the list of selected files
 # Commands:
-#	add [files|dirs|all]: add files to selection
+#	add [files...]: add files to selection
+#	addall: add all files in the current folder to selection
 #	clear: clear selection
 #	cp: copy to current dir, possbily after editing filenames
 #	edit: open selection in editor
@@ -12,44 +13,44 @@
 #	open: open files using open-file
 #	rm: remove selected files and clear selection
 
-# Requires: dmenu (or similar), trashrm (optional), open-file (for open only)
+# Requires: dmenu (or similar), trash (optional), open-file (for open only)
 
-# TODO: add possibility of specifying file.
-# TODO 2: The usage of paste(1) is a bit of a hack, and for example it does
+# TODO: The usage of paste(1) is a bit of a hack, and for example it does
 # not work if filenames contain tab characters. Fix this.
-# Bug (probably not fixing this, use virename): moving moving a file to
+
+# Another TODO: add by filename does not work when globbing filenames with
+# space. E.g. sel add "a file.txt" works, but sel add *.txt does not.
+# Why does this happen?
+
+# Bug (probably not fixing this, use virename): moving a file to
 # itself gives an error and rm is not run.
 
 file="$XDG_DATA_HOME/selectedfiles"
-menu=${MENU:-dmenu}
+menu="" # default uses dmenu-filepicker default
 editor=${EDITOR:-vi}
-rm=trashrm  # replace with rm -r if you don't use trashrm
+rm="trash rm"  # replace with rm -r if you don't use trash
 
-add() {
-	if [ -z "$2" ]; then
-		dmenu-filepicker >> "$file"
-	else
-	case "$2" in
-		files)
-			ls | while read f; do
-				[ -f "$f" ] && echo "$PWD/$f" >> "$file"
-			done
-			;;
-		dirs)
-			ls | while read f; do
-				[ -d "$f" ] && echo "$PWD/$f" >> "$file"
-			done
-			;;
-		all)
-			ls | while read f; do
-				echo "$PWD/$f" >> "$file"
-			done
-			;;
-		*)
-			echo "$2: not a valid option"
+while getopts "m:" opt; do
+	case "$opt" in
+		m)
+			menu="$OPTARG"
 			;;
 	esac
+done
+shift `expr $OPTIND - 1`
+
+add() {
+	shift 1
+	if [ -z "$1" ]; then
+		if [ -n "$menu" ]; then
+			dmenu-filepicker -m "$menu" >> "$file"
+		else
+			dmenu-filepicker >> "$file"
+		fi
+	else
+		for i in "$@"; do realpath "$i" >> "$file"; done
 	fi
+	sort -u -o "$file" "$file"
 }
 
 clear() {
@@ -91,7 +92,9 @@ else
 case "$1" in
 	add)
 		add $@
-		sort -u -o "$file" "$file"
+		;;
+	addall)
+		add *
 		;;
 	clear)
 		clear

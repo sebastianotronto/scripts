@@ -11,14 +11,22 @@
 # them before displaying the choice of feeds. Contact me if you are interested
 # in using it.
 
+# Usage: sfeed-browser [-m menu]
 # Requires: sfeed, dmenu-file-picker (or similar), open-url (or similar)
 
 filepicker="dmenu-filepicker" # Try "nnn -p -"
-menu=${MENU:-dmenu}
-menuopts="-l 35 -i"
+menu="dmenu -l 35 -i"
 urlopener=open-url
-sfd="box/sfeed"
+sfd="$HOME/box/sfeed"
 showlast=10
+
+while getopts "m:" opt; do
+	case "$opt" in
+		m)
+			menu="$OPTARG"
+			;;
+	esac
+done
 
 # Might add more stuff later
 fixurl() {
@@ -47,7 +55,7 @@ feedmenu() {
 	while read line; do
 		feedname=$(echo "$line" | sed 's/.*\///')
 		sfeed_plain "$sfd/files/$feedname" | head -$showlast
-	done | $menu $menuopts
+	done | $menu
 }
 
 openfeeds() {
@@ -57,6 +65,6 @@ openfeeds() {
 	done | xargs $urlopener
 }
 
-$filepicker "$sfd/urls" | dirtofeedpaths > "$sfd/last"
+$filepicker "$@" "$sfd/urls" | dirtofeedpaths > "$sfd/last"
 pathstosfeedrc < "$sfd/last" > "$sfd/sfeedrc"
 sfeed_update "$sfd/sfeedrc" && feedmenu < "$sfd/last" | openfeeds

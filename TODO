@@ -1,4 +1,4 @@
-* dmenu-bookmarks: add option for different directory
+* sel: fix globbing filenames with spaces; once done, remove "addall"
 
 * mblaze-extras: maybe remove script and just use aliases?
 
