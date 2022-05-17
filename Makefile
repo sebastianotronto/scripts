@@ -17,7 +17,6 @@ SCRIPTS =       addressgrep \
 		ffmpeg-screenrecord \
 		ffmpeg-facecam \
 		mail-compose \
-		mblaze-extras \
 		notify-status \
 		open-file \
 		open-stdin \
