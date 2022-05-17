@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Format text from gemtext format to short lines with double \n
+
+# TODO: remove double spacing from within ```
+
+sed 's///'  | \
+sed 'a\\'     | \
+fold -sw 80

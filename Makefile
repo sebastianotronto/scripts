@@ -16,6 +16,7 @@ SCRIPTS =       addressgrep \
 		dmenu-websearch \
 		ffmpeg-screenrecord \
 		ffmpeg-facecam \
+		gfmt \
 		mail-compose \
 		notify-status \
 		open-file \
