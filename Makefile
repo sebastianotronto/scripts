@@ -6,6 +6,7 @@ SCRIPTS =       addressgrep \
 		brightness \
 		clip \
 		config-backup \
+		cth \
 		dmenu-bookmarks \
 		dmenu-dwm-sessionmanager \
 		dmenu-filepicker \

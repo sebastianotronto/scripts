@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Print a function or struct defintion from a C file
+# see https://sebastiano.tronto.net/blog/2022-06-12-shell-ide-sed
+
+name=$1
+shift
+sed -n "/^$name/,/^}/ p" $@
