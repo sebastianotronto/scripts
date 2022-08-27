@@ -67,4 +67,5 @@ openfeeds() {
 
 $filepicker "$@" "$sfd/urls" | dirtofeedpaths > "$sfd/last"
 pathstosfeedrc < "$sfd/last" > "$sfd/sfeedrc"
-sfeed_update "$sfd/sfeedrc" && feedmenu < "$sfd/last" | openfeeds
+sfeed_update "$sfd/sfeedrc"
+feedmenu < "$sfd/last" | openfeeds
