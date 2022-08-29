@@ -6,7 +6,7 @@
 #notify=notify-send
 notify=herbe
 
-folder=~/Pictures/wallpapers
+folder=~/pictures/wallpapers
 pic=$(ls $folder | sort -R | head -1)
 
 # Alternative: use feh
