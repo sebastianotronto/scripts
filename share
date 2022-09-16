@@ -5,4 +5,4 @@
 url=tronto.net:/var/www/htdocs/share.tronto.net
 
 scp $@ $url/
-for i in $@; do echo "$url/$i"; done
+for i in $@; do echo "https://share.tronto.net/$i"; done
