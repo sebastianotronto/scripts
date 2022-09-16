@@ -28,6 +28,7 @@ SCRIPTS =       addressgrep \
 		secret \
 		sel \
 		sfeed-browser \
+		share \
 		spawn \
 		status \
 		templess \

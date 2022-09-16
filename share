@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# One-liner to upload stuff to my webserver
+
+scp $@ tronto.net:/var/www/htdocs/share.tronto.net/
