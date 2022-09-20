@@ -5,7 +5,7 @@
 folder=$HOME/box/configbackups
 
 dotfiles=".bash_profile .bashrc .profile .inputrc .mblaze .nexrc .tmux.conf .xinitrc"
-config="colors fontconfig git imv mpop msmtp zathura"
+config="colors fontconfig git imv msmtp zathura"
 src="dmenu dwm herbe st"
 share="gmni"
 
