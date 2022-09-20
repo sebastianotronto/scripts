@@ -23,8 +23,5 @@ for i in $share;    do cp -Rf $HOME/.local/share/$i $folder/share/; done
 rm $folder/config/git/credentials
 
 sed 's/^password .*/password REDACTED/' \
-	< $folder/config/mpop/config > $folder/config/mpop/config.redacted
-rm $folder/config/mpop/config
-sed 's/^password .*/password REDACTED/' \
 	< $folder/config/msmtp/config > $folder/config/msmtp/config.redacted
 rm $folder/config/msmtp/config
