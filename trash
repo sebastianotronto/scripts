@@ -25,7 +25,8 @@ case "$1" in
 		ls $trashfolder
 		;;
 	rm)
-		thisfolder="$trashfolder/$(date +'%Y-%m-%d-%s')"
+		curdir=$(pwd | sed 's|.*/||')
+		thisfolder="$trashfolder/$(date +'%Y-%m-%d-%s')-$curdir"
 		mkdir -p "$thisfolder"
 		shift 1
 		mv "$@" "$thisfolder"
