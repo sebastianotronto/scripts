@@ -33,6 +33,7 @@ SCRIPTS =       addressgrep \
 		status \
 		templess \
 		terminal \
+		theme \
 		togglemute \
 		translate \
 		trash \

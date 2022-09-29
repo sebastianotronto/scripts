@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# This script is a shortcut to change between a dark and a light theme
+# for my terminal emulator (st).
+
+# Usage: theme (dark|light)
+
+src=$HOME/.local/src
+
+case "$@" in
+	dark)
+		cd $src/st-darkbg
+		;;
+	light)
+		cd $src/st-lightbg
+		;;
+	*)
+		echo "usage: theme (dark|light)"
+		exit 1
+		;;
+esac
+
+make && sudo make install
