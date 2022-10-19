@@ -2,7 +2,12 @@
 
 # One-liner to upload stuff to my webserver
 
-url=tronto.net:/var/www/htdocs/share.tronto.net
+srv=tronto.net
+dir=$(cat /dev/random | tr -cd 'a-z0-9' | fold -w 8 | head -n 1)
+htp=https://share.tronto.net/$dir
+pth=/var/www/htdocs/share.tronto.net/$dir
+url=$srv:$pth
 
+ssh tronto.net mkdir $pth
 scp $@ $url/
-for i in $@; do echo "https://share.tronto.net/$i"; done
+for i in $@; do echo "$htp/$i"; done
