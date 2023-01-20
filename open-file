@@ -68,7 +68,12 @@ openfile() {
 			prog="java -jar"
 			;;
 		*)
-			prog=$(dmenu_path | $menu -p "How to open $f ?")
+			if [ "$menu" = dmenu ]; then
+				menuprompt='-p "How to open $f? "'
+			else
+				menuprompt='--prompt="How to open $f? "'
+			fi
+			prog=$(dmenu_path | $menu "$menuprompt")
 			;;
 	esac
 
