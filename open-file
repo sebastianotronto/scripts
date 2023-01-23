@@ -69,9 +69,9 @@ openfile() {
 			;;
 		*)
 			if [ "$menu" = dmenu ]; then
-				menuprompt='-p "How to open $f? "'
+				menuprompt="-p \"How to open $f? \""
 			else
-				menuprompt='--prompt="How to open $f? "'
+				menuprompt="--prompt=\"How to open $f? \""
 			fi
 			prog=$(dmenu_path | $menu "$menuprompt")
 			;;
