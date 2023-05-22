@@ -1,8 +1,8 @@
-* gfmt: avoid double spacing within ```
-
 * sfeed-browser: optionally just write link to stdout (or to xsel -i)
 
 * Refactor: review all scripts and adapt to common style
   Configuration file (read only at "make" time) for default apps etc..
 
 * Find a proper copy-left license
+
+* add -- when dealing with files (sel, open-file, trash...)
