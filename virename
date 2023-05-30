@@ -15,8 +15,8 @@ if [ "$(wc -l $file  | awk '{print $1}')" != \
 	echo "Error reading new file names"
 else
 	paste "$file" "$file2" | while read f; do
-		fold=$(echo "$f" | sed 's/\t.*//')
-		fnew=$(echo "$f" | sed 's/.*\t//')
+		fold=$(echo "$f" | sed 's/	.*//')
+		fnew=$(echo "$f" | sed 's/.*	//')
 		if [ "$fold" != "$fnew" ]; then
 			mv "$fold" "$fnew" \
 			|| echo "Error renaming $fold to $fnew"
