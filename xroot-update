@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Updates the xroot window with info from status
+# Requires: status
+
+# Usage: xroot-update
+
+xsetroot -name " $(status) "

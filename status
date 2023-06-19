@@ -10,8 +10,14 @@
 
 sep=${1:-" | "}
 
-time=$(date +"%H:%M:%S")
+time=$(date +"%H:%M")
 date=$(date +"%d %B %Y, %A")
+
+if [ "$(pulsemixer --get-mute)" -eq 1 ]; then
+	volume="Audio muted"
+else
+	volume="Volume: $(pulsemixer --get-volume | awk '{print $1}')%%"
+fi
 
 bat="/sys/class/power_supply/BAT0"
 if [ -d $bat ]; then
@@ -28,6 +34,6 @@ network="Network: $(nmcli device status | head -n 2 | tail -n 1 | sed 's/ *$//' 
 
 events=$(sdep-list past | wc -l)
 
-printf "$time$sep$date$sep$battery$sep$network"
+printf "$network$sep$volume$sep$battery$sep$date$sep$time"
 [ "$events" != "0" ] && printf "$sep$events TODO task(s)"
 printf "\n"

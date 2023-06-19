@@ -3,7 +3,6 @@ PREFIX = /usr/local
 SCRIPTS =       addressgrep \
 		battery-checknow \
 		battery-status \
-		brightness \
 		clip \
 		config-backup \
 		cth \
@@ -19,7 +18,6 @@ SCRIPTS =       addressgrep \
 		ffmpeg-facecam \
 		mail-compose \
 		mergepdf \
-		notify-status \
 		open-file \
 		open-stdin \
 		open-url \
@@ -35,17 +33,16 @@ SCRIPTS =       addressgrep \
 		templess \
 		terminal \
 		theme \
-		togglemute \
 		translate \
 		trash \
 		urlgrep \
 		virename \
-		volume \
 		websearch \
 		xedit \
 		xedit-filter \
 		xplumb \
 		xprop-active-window-id \
+		xroot-update \
 		xwallpaper-random-notify
 
 all: install
