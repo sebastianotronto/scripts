@@ -4,7 +4,7 @@
 # Requires: battery-status, notify-battery
 
 file="${XDG_DATA_HOME:-$HOME/.local/share}/batterystatus"
-notify=herbe
+notify="notify push"
 low=20
 crit=15
 

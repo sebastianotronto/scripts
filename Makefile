@@ -18,6 +18,7 @@ SCRIPTS =       addressgrep \
 		ffmpeg-facecam \
 		mail-compose \
 		mergepdf \
+		notify \
 		open-file \
 		open-stdin \
 		open-url \

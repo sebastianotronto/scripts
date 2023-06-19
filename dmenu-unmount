@@ -6,7 +6,8 @@
 # Requires: udevil, dmenu (or similar), notify-send or similar (optional)
 
 menu=dmenu
-writeout=herbe
+#writeout=notify-send
+writeout="notify push"
 
 while getopts "m:w:" opt; do
 	case "$opt" in

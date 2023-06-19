@@ -4,7 +4,7 @@
 # Requires: xwallpaper (or feh), notify-send or similar (optional)
 
 #notify=notify-send
-notify=herbe
+notify="notify push"
 
 folder=~/pictures/wallpapers
 pic=$(ls $folder | sort -R | head -1)

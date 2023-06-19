@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Simple notification manager.
+# Notifications are sent to a log file together with a time stamp.
+# Requires: xroot-update (optional)
+
+# Usage: notify [push MESSAGE | clean | edit | show]
+
+update=xroot-update
+file="${XDG_DATA_HOME:-.local/share}/notify"
+date=$(date +'%H:%M')
+
+usage() {
+	echo "Usage: notify [push MESSAGE | clean | edit | show]"
+}
+
+touch "$file"
+case "$1" in 
+	push)
+		echo "(Notified $date) $2" >> "$file"
+		$update
+		;;
+	clean)
+		printf "" > "$file"
+		$update
+		;;
+	edit)
+		$EDITOR "$file"
+		;;
+	show)
+		cat "$file"
+		;;
+	*)
+		usage
+		;;
+esac
