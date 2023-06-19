@@ -32,7 +32,6 @@ SCRIPTS =       addressgrep \
 		status \
 		templess \
 		terminal \
-		theme \
 		translate \
 		trash \
 		urlgrep \
