@@ -5,4 +5,4 @@
 
 outfile=${1:-output.mkv}
 
-ffmpeg -f x11grab -i :0 -f pulse -i default $outfile
+ffmpeg -f x11grab -i :0 -f pulse -i default "$outfile"

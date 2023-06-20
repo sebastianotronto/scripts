@@ -2,8 +2,9 @@
 
 # Inspired by https://github.com/salman-abedin/launch.sh
 # Launches files based on their mimetypes
-# Usage: open-file [-m menu] [-s launcher] [-t mimetype] [files...]
 # Requires: dmenu_path or similar (fallback), dmenu-filepicker
+
+# Usage: open-file [-m menu] [-s launcher] [-t mimetype] [files...]
 
 menu="dmenu -i -l 15"
 
@@ -17,8 +18,12 @@ sheet="libreoffice"
 html="firefox --new-window"
 xedit="xedit"
 
+usage() {
+	echo "Usage: open-file [-m MENU] [-s LAUNCHER] [-t MIMETYPE] [files...]"
+}
+
 openfile() {
-	f="$@"
+	f="$*"
 	localmime="$mimetype"
 
 	[ ! -f "$f" ] && echo "$f: bad argument" && exit 1
@@ -43,8 +48,9 @@ openfile() {
 		application/vnd.openxmlformats-officedocument.wordprocessingml.*)
 			prog="$word"
 			;;
-		application/ms-excel | application/vnd.oasis.opendocument.spreadsheet | \
-		text/rtf | application/vnd.openxmlformats-officedocument.spreadsheetml.*)
+		application/ms-excel | \
+		application/vnd.oasis.opendocument.spreadsheet | \
+		application/vnd.openxmlformats-officedocument.spreadsheetml.*)
 			prog="$sheet"
 			;;
 		text/html | text/enriched)
@@ -78,7 +84,7 @@ openfile() {
 	esac
 
 	if [ -n "$prog" ]; then
-		$launcher $prog "$f"
+		$launcher "$prog" "$f"
 	else
 		exit 1
 	fi
@@ -95,10 +101,14 @@ while getopts "m:s:t:" opt; do
 		t)
 			mimetype="$OPTARG"
 			;;
+		*)
+			usage
+			exit 1
+			;;
 	esac
 done
 
-shift `expr $OPTIND - 1`
+shift $((OPTIND - 1))
 
 if [ -n "$1" ]; then
 	while [ -n "$1" ]; do
@@ -106,7 +116,7 @@ if [ -n "$1" ]; then
 		shift
 	done
 else
-	dmenu-filepicker -m "$menu" | while read line; do
+	dmenu-filepicker -m "$menu" | while read -r line; do
 		openfile "$line" &
 	done
 fi

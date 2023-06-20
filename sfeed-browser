@@ -11,8 +11,9 @@
 # them before displaying the choice of feeds. Contact me if you are interested
 # in using it.
 
-# Usage: sfeed-browser [-m menu]
 # Requires: sfeed, dmenu-file-picker (or similar), open-url (or similar)
+
+# Usage: sfeed-browser [-m menu]
 
 filepicker="dmenu-filepicker" # Try "nnn -p -"
 menu="dmenu -l 35 -i"
@@ -20,10 +21,18 @@ urlopener=open-url
 sfd="$HOME/box/sfeed"
 showlast=10
 
+usage() {
+	echo "sfeed-browser [-m MENU]"
+}
+
 while getopts "m:" opt; do
 	case "$opt" in
 		m)
 			menu="$OPTARG"
+			;;
+		*)
+			usage
+			exit 1
 			;;
 	esac
 done
@@ -34,34 +43,34 @@ fixurl() {
 }
 
 dirtofeedpaths() {
-	while read line; do
-		find "$line" | while read fname; do
+	while read -r line; do
+		find "$line" | while read -r fname; do
 			[ -f "$fname" ] && echo "$fname"
 		done
 	done
 }
 
 pathstosfeedrc() {
-	printf "sfeedpath=\"$sfd/files\"\n\nfeeds() {\n"
-	while read line; do
+	printf 'sfeedpath="%s"\n\nfeeds() {\n' "$sfd/files"
+	while read -r line; do
 		feedname=$(echo "$line" | sed 's/.*\///')
-		read feedurl <"$line"
-		printf "\tfeed \"$feedname\" \"$feedurl\"\n"
+		read -r feedurl <"$line"
+		printf '\tfeed "%s" "%s"\n' "$feedname" "$feedurl"
 	done
 	printf "}\n"
 }
 
 feedmenu() {
-	while read line; do
+	while read -r line; do
 		feedname=$(echo "$line" | sed 's/.*\///')
 		sfeed_plain "$sfd/files/$feedname" | head -$showlast
 	done | $menu
 }
 
 openfeeds() {
-	while read line; do
+	while read -r line; do
 		url=$(echo "$line" | sed 's/.*[\t ]//' | fixurl)
-		[ -n "$url" ] && echo $url
+		[ -n "$url" ] && echo "$url"
 	done | xargs $urlopener
 }
 

@@ -2,20 +2,29 @@
 
 # A dmenu-based file picker (prints selected file to stdout)
 # Requires: dmenu (or similar)
+
 # Usage: dmenu-filepicker [-m menu] [path]
 
 menu="dmenu -i -l 15"
+
+usage() {
+	echo "Usage: dmenu-filepicker [-m MENU] [PATH]"
+}
 
 while getopts "m:" opt; do
 	case "$opt" in
 		m)
 			menu="$OPTARG"
 			;;
+		*)
+			usage
+			exit 1
+			;;
 	esac
 done
-shift `expr $OPTIND - 1`
+shift $((OPTIND - 1))
 
-fullpath=$(realpath ${@:-"$(pwd)"})
+fullpath=$(realpath "${@:-"$(pwd)"}")
 
 while true; do
 	if [ "$sel" = "." ]; then

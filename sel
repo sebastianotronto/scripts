@@ -1,6 +1,9 @@
 #!/bin/sh
 
 # Allow bulk operations on a list of selected files.
+
+# Requires: dmenu (or similar), trash (optional), open-file (for open only)
+
 # Usage: sel [-m menu] [command]
 # If no command is specified, shows the list of selected files
 # Commands:
@@ -13,8 +16,6 @@
 #	open: open files using open-file
 #	rm: remove selected files and clear selection
 
-# Requires: dmenu (or similar), trash (optional), open-file (for open only)
-
 # TODO: The usage of paste(1) is a bit of a hack, and for example it does
 # not work if filenames contain tab characters. Fix this.
 
@@ -26,14 +27,32 @@ menu="" # default uses dmenu-filepicker default
 editor=${EDITOR:-vi}
 rm="trash rm"  # replace with rm -r if you don't use trash
 
+usage() {
+	echo "Usage: sel [-m MENU] [COMMAND]"
+	echo "If no COMMAND is specified, shows the list of selected files"
+	echo "Possible commands:"
+	echo "	add [files...]: add files to selection"
+	echo "	addall: add all files in the current folder to selection"
+	echo "	clear: clear selection"
+	echo "	cp: copy to current dir, possbily after editing filenames"
+	echo "	edit: open selection in editor"
+	echo "	mv: move to current dir, possbily after editing filenames"
+	echo "	open: open files using open-file"
+	echo "	rm: remove selected files and clear selection"
+}
+
 while getopts "m:" opt; do
 	case "$opt" in
 		m)
 			menu="$OPTARG"
 			;;
+		*)
+			usage
+			exit 1
+			;;
 	esac
 done
-shift `expr $OPTIND - 1`
+shift $((OPTIND - 1))
 
 add() {
 	shift 1
@@ -57,12 +76,12 @@ cphere() {
 	file2=$(mktemp)
 	sed 's/^.*\///' "$file" > "$file2"
 	$editor "$file2"
-	if [ "$(wc -l $file  | awk '{print $1}')" != \
-	     "$(wc -l $file2 | awk '{print $1}')" ]; then
+	if [ "$(wc -l "$file"  | awk '{print $1}')" != \
+	     "$(wc -l "$file2" | awk '{print $1}')" ]; then
 		echo "Error reading new file names"
 		return 1
 	else
-		paste "$file" "$file2" | while read f; do
+		paste "$file" "$file2" | while read -r f; do
 			fold=$(echo "$f" | sed 's/	.*//')
 			fnew=$(echo "$f" | sed 's/.*	//')
 			cp -R "$fold" ./"$fnew" || return 1
@@ -71,13 +90,13 @@ cphere() {
 }
 
 open() {
-	while read f; do
+	while read -r f; do
 		open-file "$f"
 	done < "$file"
 }
 
 remove() {
-	while read f; do
+	while read -r f; do
 		$rm "$f"
 	done < "$file"
 }
@@ -90,7 +109,7 @@ case "$1" in
 		add "$@"
 		;;
 	addall)
-		add *
+		add ./*
 		;;
 	clear)
 		clear

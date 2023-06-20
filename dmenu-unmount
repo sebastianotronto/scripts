@@ -1,13 +1,19 @@
 #!/bin/sh
 
 # Prompts selection for mounted devices and unmounts the selected one
+# Requires: udevil, dmenu (or similar), notify-send or similar (optional)
+
 # Usage: dmenu-unmount [-m menu] [-w writer]
 # Example: dmenu-unmount -m slmenu -w echo
-# Requires: udevil, dmenu (or similar), notify-send or similar (optional)
 
 menu=dmenu
 #writeout=notify-send
 writeout="notify push"
+
+usage() {
+	echo "Usage: dmenu-unmount [-m MENU] [-w WRITER]"
+	echo "Example: dmenu-unmount -m slmenu -w echo"
+}
 
 while getopts "m:w:" opt; do
 	case "$opt" in
@@ -17,9 +23,13 @@ while getopts "m:w:" opt; do
 		w)
 			writeout="$OPTARG"
 			;;
+		*)
+			usage
+			exit 1
+			;;
 	esac
 done
-shift `expr $OPTIND - 1`
+shift $((OPTIND - 1))
 
 listdev=$(grep "media" /proc/mounts | sed 's/\/media.*\///g' | \
           awk '{print $1" ("$2")"}')
@@ -31,11 +41,10 @@ else
 	if [ -n "$seldev" ]; then
 		udevil unmount "$seldev"
 		failed=$(udevil info "$seldev" | grep mounted | awk '{print $3}')
-		if [ $failed -eq 1 ]; then
+		if [ "$failed" -eq 1 ]; then
 			$writeout "Unmount FAILED" "Device is still mounted!"
 		else
 			$writeout "Device unmounted"
 		fi
 	fi
 fi
-# notify-send "$(udisksctl unmount -b $seldev)"

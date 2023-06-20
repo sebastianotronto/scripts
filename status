@@ -35,7 +35,7 @@ network="Network: $nwclean"
 
 noticount=$(notify show | wc -l)
 
-printf "$network$sep$volume$sep$battery$sep$date$sep$time"
-[ "$noticount" = "1" ] && printf "$sep$(notify show)"
-[ "$noticount" -gt "1" ] && printf "${sep}Unread notifications: $noticount"
-printf "\n"
+printf '%s' "$network$sep$volume$sep$battery$sep$date$sep$time"
+[ "$noticount" = "1" ] && printf '%s' "$sep$(notify show)"
+[ "$noticount" -gt "1" ] && printf '%s' "${sep}Unread items: $noticount"
+printf '\n'

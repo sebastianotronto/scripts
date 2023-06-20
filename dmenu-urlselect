@@ -2,18 +2,27 @@
 
 # Finds all URLs in stdin and prompts a dmenu choice, then writes the selected
 # url to stdout.
-# Usage: dmenu-urlselect [-m menu]
 # Requires: dmenu (or similar), urlgrep
 
+# Usage: dmenu-urlselect [-m menu]
+
 menu="dmenu -i -l 20"
+
+usage() {
+	echo "Usage: dmenu-urlselect [-m MENU]"
+}
 
 while getopts "m:" opt; do
 	case "$opt" in
 		m)
 			menu="$OPTARG"
 			;;
+		*)
+			usage
+			exit 1
+			;;
 		esac
 done
-shift `expr $OPTIND - 1`
+shift $((OPTIND - 1))
 
 urlgrep | $menu

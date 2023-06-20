@@ -2,8 +2,13 @@
 
 # Select mail alias via dmenu
 # The email address must be the second word in a line of $aliasfile
-# Usage: dmenu-mail-aliases [-m menu]
 # Requires: dmenu (or similar)
+
+# Usage: dmenu-mail-aliases [-m menu]
+
+usage() {
+	echo "Usage: dmenu-mail-aliases [-m MENU]"
+}
 
 menu="dmenu -l 20"
 aliasfile="$HOME/.mblaze/aliases"
@@ -13,8 +18,12 @@ while getopts "m:" opt; do
 		m)
 			menu="$OPTARG"
 			;;
+		*)
+			usage
+			exit 1
+			;;
 		esac
 done
-shift `expr $OPTIND - 1`
+shift $((OPTIND - 1))
 
-$menu $menuopts <"$aliasfile" | awk '{print $NF}' 
+$menu <"$aliasfile" | awk '{print $NF}' 

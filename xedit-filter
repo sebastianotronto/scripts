@@ -1,4 +1,4 @@
-#/!bin/sh
+#!/bin/sh
 
 # Open stdin in a text editor and sends modified selection to stdout
 # Requires: xedit

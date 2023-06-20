@@ -5,4 +5,4 @@
 
 editor=${EDITOR:-${VISUAL:-vi}}
 
-terminal $editor $@
+terminal "$editor" "$@"

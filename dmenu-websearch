@@ -5,4 +5,4 @@
 
 menu=${MENU:-dmenu}
 
-websearch $(echo "" | $menu -p "websearch:")
+websearch "$(echo "" | $menu -p "websearch:")"

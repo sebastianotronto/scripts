@@ -5,4 +5,4 @@
 
 name=$1
 shift
-sed -n "/^$name/,/^}/ p" $@
+sed -n "/^$name/,/^}/ p" "$@"

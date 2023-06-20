@@ -3,4 +3,4 @@
 # Popup terminal displaying cal -3
 # Requires: st (suckless terminal)
 
-st -T "stfloat" -g 69x36+620+250 -e sh -c 'cal $(date +%Y); read x'
+st -T "stfloat" -g 69x36+620+250 -e sh -c "cal $(date +%Y); read x"

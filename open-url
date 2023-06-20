@@ -13,19 +13,16 @@ echo "$@" | xsel -ib
 
 case "$@" in
 	mailto:*)
-		mail-compose $@
+		mail-compose "$@"
 		;;
 	*.jpg | *.jpeg | *.png)
-		spawn $imageviewer "$@"
+		spawn "$imageviewer" "$@"
 		;;
 	*.gif)
-		spawn $imageviewer "$@"
+		spawn "$imageviewer" "$@"
 		;;
-#	https://www.youtube.com/watch\?v=*)
-#		spawn $VIDEOPLAYER "$1"
-# 		;;
 	*)
-		spawn $browser "$@"
+		spawn "$browser" "$@"
 		;;
 esac
 

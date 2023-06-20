@@ -10,8 +10,8 @@ folder=~/pictures/wallpapers
 pic=$(ls $folder | sort -R | head -1)
 
 # Alternative: use feh
-#feh --bg-fill --no-fehbg $folder/$pic
-xwallpaper --zoom $folder/$pic
+#feh --bg-fill --no-fehbg "$folder"/"$pic"
+xwallpaper --zoom "$folder"/"$pic"
 
 # Uncomment to notify
-#$notify "Background of the day" $pic
+#$notify "Background of the day" "$pic"

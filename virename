@@ -10,11 +10,11 @@ editor=${EDITOR:-vi}
 ls | tee "$file" > "$file2"
 $editor "$file2"
 
-if [ "$(wc -l $file  | awk '{print $1}')" != \
-     "$(wc -l $file2 | awk '{print $1}')" ]; then
+if [ "$(wc -l "$file"  | awk '{print $1}')" != \
+     "$(wc -l "$file2" | awk '{print $1}')" ]; then
 	echo "Error reading new file names"
 else
-	paste "$file" "$file2" | while read f; do
+	paste "$file" "$file2" | while read -r f; do
 		fold=$(echo "$f" | sed 's/	.*//')
 		fnew=$(echo "$f" | sed 's/.*	//')
 		if [ "$fold" != "$fnew" ]; then

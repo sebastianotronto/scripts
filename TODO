@@ -3,6 +3,8 @@
 * Refactor: review all scripts and adapt to common style
   Configuration file (read only at "make" time) for default apps etc..
 
+* Replace ls with find
+
 * Find a proper copy-left license
 
 * add -- when dealing with files (sel, open-file, trash...)

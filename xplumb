@@ -18,7 +18,7 @@ menu=${MENU:-dmenu}
 menuopts="-l 10"
 
 text=$(xsel | sed 's/\n/ /g')
-if [ $(echo "$text" | wc -c) -ge 11 ]; then
+if [ "${#text}" -ge 11 ]; then
 	shorttext=$(echo "$text" | cut -b 1-10)...
 else
 	shorttext="$text"
@@ -29,7 +29,7 @@ choice() {
 	         $menu $menuopts -p "What to do with \"$shorttext\"?")
 
 	if [ "$chosen" = "websearch" ]; then
-		websearch $text
+		websearch "$text"
 	elif [ "$chosen" = "edit" ]; then
 		f=$(mktemp)
 		xsel > "$f"
@@ -39,13 +39,13 @@ choice() {
 
 trymail() {
 	addr=$(echo "$1" | addressgrep)
-	( [ -n "$addr" ] && mail-compose $addr ) || return 1
+	( [ -n "$addr" ] && mail-compose "$addr" ) || return 1
 }
 
 tryman() {
 	number=$(echo "$1" | sed 's/[^1-8]//g')
 	name=$(echo "$1" | sed 's/([1-8])//g' | sed 's/ //g')
-	if [ $(man -w "$number" "$name" | wc -l) = 1 ]; then
+	if [ "$(man -w "$number" "$name" | wc -l)" = 1 ]; then
 		terminal -e man "$number" "$name"
 		return 0
 	else
@@ -55,7 +55,7 @@ tryman() {
 
 tryurl() {
 	url=$(echo "$1" | urlgrep)
-	( [ -n "$url" ] && $browser $url ) || return 1
+	( [ -n "$url" ] && "$browser" "$url" ) || return 1
 }
 
 #open-file -s spawn "$text" || \

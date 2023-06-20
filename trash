@@ -4,25 +4,30 @@
 # current date.
 
 # Usage: trash [rm FILE(s)|ls|empty]
-# Pretty self-explanatory
 
 # ksh completion
 # set -A complete_trash_1 rm ls empty
 
 trashfolder=$XDG_DATA_HOME/mytrash
 
+usage() {
+	echo "Usage: trash [rm FILES... | ls | empty]"
+}
+
 if [ -z "$1" ]; then
-	echo "usage: trash [rm FILE(s)|ls|empty]"
-else
+	usage
+	exit 1
+fi
+
 case "$1" in
 	empty)
 		# little check
 		if [ -n "$trashfolder" ]; then
-			rm -rf $trashfolder/*
+			rm -rf "${trashfolder:?}"/*
 		fi
 		;;
 	ls)
-		ls $trashfolder
+		ls "$trashfolder"
 		;;
 	rm)
 		curdir=$(pwd | sed 's|.*/||')
@@ -33,7 +38,7 @@ case "$1" in
 		;;
 		
 	*)
-		echo "$1: not a valid command"
+		usage
+		exit 1
 		;;
 esac
-fi

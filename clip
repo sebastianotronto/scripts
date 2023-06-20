@@ -13,40 +13,51 @@
 
 menu="dmenu -i -l 25"
 
+usage() {
+	echo "Usage: clip [-m MENU]"
+}
+
 while getopts "m:" opt; do
 	case "$opt" in
 		m)
 			menu="$OPTARG"
 			;;
+		*)
+			usage
+			exit 1
+			;;
 	esac
 done
-shift `expr $OPTIND - 1`
+shift "$((OPTIND - 1))"
 
 dir="/tmp/clipdir"
 mkdir -p "$dir"
 
-file1="$(mktemp -p $dir $(date +%s).XXXXX)"
-file2="$(mktemp -p $dir $(date +%s)b.XXXX)"
+file1="$(mktemp -p "$dir" "$(date +%s)".XXXXX)"
+file2="$(mktemp -p "$dir" "$(date +%s)"b.XXXX)"
+echo "created $file1"
+echo "created $file2"
 xsel    > "$file1"
 xsel -b > "$file2"
 
 # Avoid duplicates
-for f in $dir/*; do
+for f in "$dir"/*; do
 	[ "$f" != "$file1" ] && if diff "$f" "$file1"; then rm "$file1"; fi
 	[ "$f" != "$file2" ] && if diff "$f" "$file2"; then rm "$file2"; fi
 done
 
 list="$(mktemp)"
-ls $dir > $list;
+ls "$dir" > "$list";
 
 lines="$(mktemp)"
-for f in $dir/*; do
-	nlines=$(expr 1 + "$(wc -l $f | awk '{print $1}')")
-	fclean=$(echo $f | sed "s|$dir\/||")
-	printf "$fclean ($nlines) |    $(head -n 1 $f)\n" >> "$lines"
+for f in "$dir"/*; do
+	nlines="$(wc -l "$f" | awk '{print $1}')"
+	fclean="$(echo "$f" | sed "s|$dir\/||")"
+	printf '%s (%s) |    %s\n' \
+		"$fclean" "$((1+nlines))" "$(head -n 1 "$f")" >> "$lines"
 done
 
-selected=$(sort -r $lines | $menu | awk '{print $1}')
+selected=$(sort -r "$lines" | $menu | awk '{print $1}')
 if [ -n "$selected" ]; then
 	xsel -ib < "$dir/$selected"
 fi

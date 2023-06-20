@@ -3,4 +3,4 @@
 # Open a mail composer.
 # Requires: mblaze, terminal
 
-terminal mcom $@
+terminal mcom "$@"

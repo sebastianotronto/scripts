@@ -9,19 +9,19 @@ config="colors fontconfig git imv msmtp zathura"
 src="dmenu dwm st st-lightbg"
 share="gmni"
 
-mkdir -p $folder/config $folder/home $folder/share $folder/src
+mkdir -p "$folder"/config "$folder"/home "$folder"/share "$folder"/src
 
 # copy
 
-for i in $dotfiles; do cp -Rf $HOME/$i $folder/home/; done
-for i in $config;   do cp -Rf $HOME/.config/$i $folder/config/; done
-for i in $src;      do cp -Rf $HOME/.local/src/$i $folder/src/; done
-for i in $share;    do cp -Rf $HOME/.local/share/$i $folder/share/; done
+for i in $dotfiles; do cp -Rf "$HOME"/"$i" "$folder"/home/; done
+for i in $config;   do cp -Rf "$HOME"/.config/"$i" "$folder"/config/; done
+for i in $src;      do cp -Rf "$HOME"/.local/src/"$i" "$folder"/src/; done
+for i in $share;    do cp -Rf "$HOME"/.local/share/"$i" "$folder"/share/; done
 
 # redact
 
-rm $folder/config/git/credentials
+rm "$folder"/config/git/credentials
 
 sed 's/^password .*/password REDACTED/' \
-	< $folder/config/msmtp/config > $folder/config/msmtp/config.redacted
-rm $folder/config/msmtp/config
+	< "$folder"/config/msmtp/config > "$folder"/config/msmtp/config.redacted
+rm "$folder"/config/msmtp/config
