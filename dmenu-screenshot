@@ -36,5 +36,5 @@ else
 	pkill xbanish # otherwise I can't use mouse to select area
 fi
 
-[ -n "$t" ] && sleep 0.1 && import "$op" "$filepath"
+[ -n "$t" ] && sleep 0.1 && import $op "$filepath"
 spawn xbanish # This can be removed if you don't use xbanish
