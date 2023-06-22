@@ -84,7 +84,7 @@ openfile() {
 	esac
 
 	if [ -n "$prog" ]; then
-		$launcher "$prog" "$f"
+		$launcher $prog "$f"
 	else
 		exit 1
 	fi
