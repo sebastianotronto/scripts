@@ -16,7 +16,7 @@ status=$(echo "$new" | awk '{print $2}')
 [ "$status" = "Discharging" ] && [ "$level" -le "$crit" ] && status="Critical"
 
 if [ "$status" != "$(cat "$file")" ] || [ "$status" = "Critical" ]; then
-	$notify "Battery" "$(battery-status)"
+	$notify "Battery: $(battery-status)"
 fi
 
 echo "$status" > "$file"
