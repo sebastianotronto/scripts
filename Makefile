@@ -28,7 +28,6 @@ SCRIPTS =       addressgrep \
 		popup-terminal \
 		secret \
 		sel \
-		sfeed-browser \
 		share \
 		spawn \
 		status \
