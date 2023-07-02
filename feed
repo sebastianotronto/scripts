@@ -64,6 +64,8 @@ fi
 case "$1" in
 	get)
 		getnew
+		countnew=$(cat "$destdir"/* | wc -l)
+		echo "$countnew new feed items"
 		;;
 	menu)
 		showmenu
