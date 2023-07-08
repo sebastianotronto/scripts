@@ -38,7 +38,7 @@ getnew() {
 	done
 }
 
-showmenu() {
+show() {
 	for f in "$destdir"/*; do
 		ff=$(basename "$f")
 		if [ -s "$f" ]; then
@@ -46,7 +46,11 @@ showmenu() {
 				printf '%20s    %s\n' "$ff" "$line"
 			done < "$f"
 		fi
-	done | $menu | awk '{print $NF}' | xargs $urlopener
+	done
+}
+
+selectmenu() {
+	$menu | awk '{print $NF}' | xargs $urlopener
 }
 
 while getopts "m:" opt; do
@@ -75,7 +79,7 @@ case "$1" in
 		echo "$countnew new feed items"
 		;;
 	menu)
-		showmenu
+		show | selectmenu
 		;;
 	clear)
 		d="$olddir/$(date +'%Y-%m-%d-%H-%M-%S')"
@@ -83,7 +87,7 @@ case "$1" in
 		mv "$destdir"/* "$d/"
 		;;
 	show)
-		cat "$destdir"/*
+		show
 		;;
 	*)
 		usage
