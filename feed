@@ -4,7 +4,7 @@
 
 # Requires: sfeed, sfeed_plain (get), dmenu, open-url (menu)
 
-# Usage: feed [-m menu] [get|menu|clear|edit]
+# Usage: feed [-m menu] [get|menu|clear|show]
 
 dir=$HOME/box/sfeed
 feeddir=$dir/urls
