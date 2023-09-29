@@ -10,4 +10,4 @@ url=$srv:$pth
 
 ssh tronto.net mkdir "$pth"
 scp "$@" "$url"/
-for i in "$@"; do echo "$htp/$i"; done
+for i in "$@"; do echo "$htp/$(basename $i)"; done
