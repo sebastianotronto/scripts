@@ -1,12 +1,8 @@
 #!/bin/sh
 
-# Find all url in stdin, print them newline-separated to stdout
+# Find all URLs in stdin, print them newline-separated to stdout
 
-# Old regex (PCRE), kept it for later review:
-# reg='(((http|https|ftp)|mailto)[.:][^ >"\t]*|www\.[-a-z0-9.]+)[^ .,;\t>">\):]'
-# grep -Po "$reg"
-
-protocols='http|https|ftp|gemini|mailto'
+protocols='http|https|ftp|sftp|gemini|mailto'
 valid_chars="][a-zA-Z0-9_~/?#@!$&'()*+=.,;:-"
 regex="(($protocols):|www\.)[$valid_chars]+"
 
