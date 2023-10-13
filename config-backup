@@ -7,20 +7,18 @@ folder=$HOME/box/configbackups
 dotfiles=".bash_profile .bashrc .profile .inputrc .mblaze .nexrc .tmux.conf .xinitrc"
 config="colors fontconfig git imv msmtp zathura"
 src="dmenu dwm st st-lightbg"
-share="gmni"
 
-mkdir -p "$folder"/config "$folder"/home "$folder"/share "$folder"/src
+for d in config home src ssh; do mkdir -p "$folder/$d"; done
 
 # copy
 
 for i in $dotfiles; do cp -Rf "$HOME"/"$i" "$folder"/home/; done
 for i in $config;   do cp -Rf "$HOME"/.config/"$i" "$folder"/config/; done
 for i in $src;      do cp -Rf "$HOME"/.local/src/"$i" "$folder"/src/; done
-for i in $share;    do cp -Rf "$HOME"/.local/share/"$i" "$folder"/share/; done
+
+cp "$HOME"/.ssh/config "$folder"/ssh/
 
 # redact
-
-rm "$folder"/config/git/credentials
 
 sed 's/^password .*/password REDACTED/' \
 	< "$folder"/config/msmtp/config > "$folder"/config/msmtp/config.redacted
