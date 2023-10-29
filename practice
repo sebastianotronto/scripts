@@ -2,10 +2,10 @@
 
 # Script based on nissy (see https://nissy.tronto.net) to practice FMC
 
-# Usage: practice [eo|htr|fin]
+# Usage: practice [eo|htr|slice]
 
 usage() {
-	echo "Usage: practice [eo|htr|fin]"
+	echo "Usage: practice [eo|htr|slice]"
 }
 
 eo() {
@@ -55,7 +55,7 @@ htr() {
 	done
 }
 
-fin() {
+slice() {
 	nextscr="$(nissy scramble htr)"
 	while true; do
 		scr="$nextscr"
@@ -79,8 +79,8 @@ case "$1" in
 	htr)
 		htr
 		;;
-	fin)
-		fin
+	slice)
+		slice
 		;;
 	*)
 		usage
