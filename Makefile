@@ -26,6 +26,7 @@ SCRIPTS =       addressgrep \
 		popup-cal12 \
 		popup-cal3 \
 		popup-terminal \
+		practice \
 		secret \
 		sel \
 		share \
