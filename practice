@@ -2,15 +2,52 @@
 
 # Script based on nissy (see https://nissy.tronto.net) to practice FMC
 
-# Usage: practice [htr|fin]
+# Usage: practice [eo|htr|fin]
 
 usage() {
-	echo "Usage: practice [htr|fin]"
+	echo "Usage: practice [eo|htr|fin]"
+}
+
+eo() {
+	nextscr="$(nissy scramble)"
+	while true; do
+		scr="$nextscr"
+		nextscr="$(nissy scramble)"
+		echo $scr
+		eofb="$(nissy solve -N -M 4 eofb -p $scr)"
+		eorl="$(nissy solve -N -M 4 eorl -p $scr)"
+		eoud="$(nissy solve -N -M 4 eoud -p $scr)"
+		nfbn="$(echo "$eofb" | grep -v '^$' | fgrep -v '(' | wc -l)"
+		nrln="$(echo "$eorl" | grep -v '^$' | fgrep -v '(' | wc -l)"
+		nudn="$(echo "$eoud" | grep -v '^$' | fgrep -v '(' | wc -l)"
+		nfbi="$(echo "$eofb" | grep '^(' | wc -l)"
+		nrli="$(echo "$eorl" | grep '^(' | wc -l)"
+		nudi="$(echo "$eoud" | grep '^(' | wc -l)"
+		nfbniss="$(echo "$eofb" | grep -v '^(' | grep '(' | wc -l)"
+		nrlniss="$(echo "$eorl" | grep -v '^(' | grep '(' | wc -l)"
+		nudniss="$(echo "$eoud" | grep -v '^(' | grep '(' | wc -l)"
+		nfb="$((nfbn + nfbi + nfbniss))"
+		nrl="$((nrln + nrli + nrlniss))"
+		nud="$((nudn + nudi + nudniss))"
+		read -r x
+		echo "FB: $nfb ($nfbn normal, $nfbi inverse, $nfbniss niss)"
+		echo "RL: $nrl ($nrln normal, $nrli inverse, $nrlniss niss)"
+		echo "UD: $nud ($nudn normal, $nudi inverse, $nudniss niss)"
+		read -r x
+		echo "$eofb"
+		echo "---"
+		echo "$eorl"
+		echo "---"
+		echo "$eoud"
+		read -r x
+	done
 }
 
 htr() {
+	nextscr="$(nissy scramble dr)"
 	while true; do
-		scr="$(nissy scramble dr)"
+		scr="$nextscr"
+		nextscr="$(nissy scramble dr)"
 		echo "$scr"
 		read -r x
 		nissy solve -o htr "$scr"
@@ -19,8 +56,10 @@ htr() {
 }
 
 fin() {
+	nextscr="$(nissy scramble htr)"
 	while true; do
-		scr="$(nissy scramble htr)"
+		scr="$nextscr"
+		nextscr="$(nissy scramble htr)"
 		echo "$scr"
 		read -r x
 		nissy solve -o drudslice "$scr"
@@ -34,6 +73,9 @@ if [ -z "$1" ]; then
 fi
 
 case "$1" in
+	eo)
+		eo
+		;;
 	htr)
 		htr
 		;;
