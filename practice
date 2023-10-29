@@ -23,7 +23,7 @@ fin() {
 		scr="$(nissy scramble htr)"
 		echo "$scr"
 		read -r x
-		nissy solve -o drslice "$scr"
+		nissy solve -o drudslice "$scr"
 		read -r x
 	done
 }
