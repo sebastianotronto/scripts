@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# Script based on nissy (see https://nissy.tronto.net) to practice FMC
+
+# Usage: practice [htr|fin]
+
+usage() {
+	echo "Usage: practice [htr|fin]"
+}
+
+htr() {
+	while true; do
+		scr="$(nissy scramble dr)"
+		echo "$scr"
+		read -r x
+		nissy solve -o htr "$scr"
+		read -r x
+	done
+}
+
+fin() {
+	while true; do
+		scr="$(nissy scramble htr)"
+		echo "$scr"
+		read -r x
+		nissy solve -o drslice "$scr"
+		read -r x
+	done
+}
+
+if [ -z "$1" ]; then
+	usage
+	exit 1
+fi
+
+case "$1" in
+	htr)
+		htr
+		;;
+	fin)
+		fin
+		;;
+	*)
+		usage
+		exit 1
+		;;
+esac
