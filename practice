@@ -2,21 +2,25 @@
 
 # Script based on nissy (see https://nissy.tronto.net) to practice FMC
 
-# Usage: practice [eo|htr|slice]
+# Usage: practice [eo|dr|htr|slice]
+
+nissy="nissy"
+prompt="Press enter for a new scramble, Ctr+C (or Ctrl+Z) to quit:"
 
 usage() {
-	echo "Usage: practice [eo|htr|slice]"
+	echo "Usage: practice [eo|dr|htr|slice]"
+	exit 1
 }
 
-eo() {
-	nextscr="$(nissy scramble)"
+practice_eo() {
+	nextscr="$(${nissy} scramble)"
 	while true; do
 		scr="$nextscr"
-		nextscr="$(nissy scramble)"
-		echo "$scr"
-		eofb="$(nissy solve -N -M 4 eofb -p "$scr")"
-		eorl="$(nissy solve -N -M 4 eorl -p "$scr")"
-		eoud="$(nissy solve -N -M 4 eoud -p "$scr")"
+		echo "Scramble: $scr"
+		nextscr="$(${nissy} scramble)"
+		eofb="$(${nissy} solve -N -M 4 eofb -p "$scr")"
+		eorl="$(${nissy} solve -N -M 4 eorl -p "$scr")"
+		eoud="$(${nissy} solve -N -M 4 eoud -p "$scr")"
 		nfbn="$(echo "$eofb" | grep -v '^$' | grep -Fv '(' | wc -l)"
 		nrln="$(echo "$eorl" | grep -v '^$' | grep -Fv '(' | wc -l)"
 		nudn="$(echo "$eoud" | grep -v '^$' | grep -Fv '(' | wc -l)"
@@ -39,51 +43,87 @@ eo() {
 		echo "$eorl"
 		echo "---"
 		echo "$eoud"
+		printf '\n%s' "$prompt"
 		read -r x
 	done
 }
 
-htr() {
-	nextscr="$(nissy scramble dr)"
+dr_scramble() {
+	d="9"
+	min="4"
+	max="7"
+	while true; do
+		eo="$(tr -cd 'UDRL' < /dev/random | fold -w "$d" | head -n 1)"
+		sol="$(${nissy} solve -p drud-eofb "$eo")"
+		len="$(echo "$sol" | wc -w)"
+		if [ "$len" -ge "$min" ] && [ "$len" -le "$max" ]; then
+			break
+		fi
+	done
+	${nissy} solve drud -p -m $((d + 1)) "$eo"
+}
+
+practice_dr() {
+	nextscr="$(dr_scramble)"
 	while true; do
 		scr="$nextscr"
-		nextscr="$(nissy scramble dr)"
-		echo "$scr"
+		echo "Scramble: $scr"
+		nextscr="$(dr_scramble)"
+		soleo="$(${nissy} solve -o -p drud-eofb "$scr")"
+		neo="$(echo "$soleo" | grep -v '^$' | wc -l)"
+		leo="$(echo "$soleo" | head -n 1 | wc -w)"
+		solht="$(${nissy} solve -o -p drud "$scr")"
+		nht="$(echo "$soleo" | grep -v '^$' | wc -l)"
+		lht="$(echo "$soleo" | head -n 1 | wc -w)"
 		read -r x
-		nissy solve -o htr "$scr"
+		echo "$leo moves ($neo solutions)"
+		if [ "$nht" != "$neo" ] || [ "$lht" != "$leo" ]; then
+			echo "Breaking EO: $lht moves ($nht solutions)"
+		fi
+		read -r x
+		echo "$soleo"
+		if [ "$nht" != "$neo" ] || [ "$lht" != "$leo" ]; then
+			echo "$solht"
+		fi
+		printf '\n%s' "$prompt"
 		read -r x
 	done
 }
 
-slice() {
-	nextscr="$(nissy scramble htr)"
+practice_htr() {
+	nextscr="$(${nissy} scramble dr)"
 	while true; do
 		scr="$nextscr"
-		nextscr="$(nissy scramble htr)"
-		echo "$scr"
+		echo "Scramble: $scr"
+		nextscr="$(${nissy} scramble dr)"
+		sol="$(${nissy} solve -o -p htr "$scr")"
+		nsol="$(echo "$sol" | grep -v '^$' | wc -l)"
+		len="$(echo "$sol" | head -n 1 | wc -w)"
 		read -r x
-		nissy solve -o drudslice "$scr"
+		echo "$len moves ($nsol solutions)"
+		read -r x
+		echo "$sol"
+		printf '\n%s' "$prompt"
 		read -r x
 	done
 }
 
-if [ -z "$1" ]; then
-	usage
-	exit 1
-fi
+practice_slice() {
+	nextscr="$(${nissy} scramble htr)"
+	while true; do
+		scr="$nextscr"
+		echo "Scramble: $scr"
+		nextscr="$(${nissy} scramble htr)"
+		sol="$(${nissy} solve -o -p drudslice "$scr")"
+		nsol="$(echo "$sol" | grep -v '^$' | wc -l)"
+		len="$(echo "$sol" | head -n 1 | wc -w)"
+		read -r x
+		echo "$len moves ($nsol solutions)"
+		read -r x
+		echo "$sol"
+		printf '\n%s' "$prompt"
+		read -r x
+	done
+}
 
-case "$1" in
-	eo)
-		eo
-		;;
-	htr)
-		htr
-		;;
-	slice)
-		slice
-		;;
-	*)
-		usage
-		exit 1
-		;;
-esac
+"practice_$1" || usage
