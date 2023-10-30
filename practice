@@ -54,7 +54,8 @@ dr_scramble() {
 	max="7"
 	while true; do
 		eo="$(tr -cd 'UDRL' < /dev/random | fold -w "$d" | head -n 1)"
-		sol="$(${nissy} solve -p drud-eofb "$eo")"
+		eoinv="$(echo "$eo" | rev | sed 's/./&3/g')"
+		sol="$(${nissy} solve -p drud-eofb "$eoinv")"
 		len="$(echo "$sol" | wc -w)"
 		if [ "$len" -ge "$min" ] && [ "$len" -le "$max" ]; then
 			break
