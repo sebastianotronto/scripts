@@ -13,11 +13,11 @@ usage() {
 }
 
 practice_eo() {
-	nextscr="$(${nissy} scramble)"
+	nextscr="$(${nissy} scramble fmc)"
 	while true; do
 		scr="$nextscr"
 		echo "Scramble: $scr"
-		nextscr="$(${nissy} scramble)"
+		nextscr="$(${nissy} scramble fmc)"
 		eofb="$(${nissy} solve -N -M 4 eofb -p "$scr")"
 		eorl="$(${nissy} solve -N -M 4 eorl -p "$scr")"
 		eoud="$(${nissy} solve -N -M 4 eoud -p "$scr")"
