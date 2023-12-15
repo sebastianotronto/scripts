@@ -14,6 +14,7 @@ SCRIPTS =       addressgrep \
 		dmenu-unmount \
 		dmenu-urlselect \
 		dmenu-websearch \
+		event \
 		feed \
 		ffmpeg-screenrecord \
 		ffmpeg-facecam \

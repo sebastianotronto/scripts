@@ -1,0 +1,152 @@
+#!/bin/sh
+
+# Manage events (replacement for https://git.tronto.net/sdep)
+
+# Usage: event [command [argument]]
+# See usage() for details
+
+file="$HOME/box/events" # Change to $XDG_DATA_HOME/events or whatever
+editor=${EDITOR:-vi}
+
+usage() {
+	echo "Usage: event [command]"
+	echo "Commands:"
+	echo "  add [day]    Add a new event (default date: none)"
+	echo "               day: today, t; tomorrow, tm"
+	echo "  clear        Sort and cleanup event file"
+	echo "  edit         Open event file in $editor"
+	echo "  list [date]  List all events on date (default: all events)"
+	echo "               date: now, n; today, t; tomorrow, tm;"
+	echo "                     week, w; nextweek, nw;"
+	echo "                     future, f; past, p"
+}
+
+secondstoday() {
+	if [ "$(uname)" = "Linux" ]; then
+		date -d @$1 +'%Y-%m-%d'
+	else # Assume BSD date
+		date -r $1 +'%Y-%m-%d'
+	fi
+}
+
+secondstomin() {
+	if [ "$(uname)" = "Linux" ]; then
+		date -d @$1 +'%Y-%m-%d %H:%M'
+	else # Assume BSD date
+		date -r $1 +'%Y-%m-%d %H:%M'
+	fi
+}
+
+datetoseconds() {
+	# Read date in YYYY-MM-DD HH:MM format
+	if [ "$(uname)" = "Linux" ]; then
+		date -d "$1 $2" +'%s'
+	else # Assume BSD date
+		date -f '%Y-%m-%d %H:%M' -j "$1 $2" +'%s'
+	fi
+}
+
+dayplus() {
+	d="$1"
+	n="$(datetoseconds today)"
+	echo "$((n+d*60*60*24))"
+}
+monday() { d="$(date +%u)"; dayplus "$((1-d))"; }
+monday1() { d="$(date +%u)"; dayplus "$((8-d))"; }
+monday2() { d="$(date +%u)"; dayplus "$((15-d))"; }
+daydiff() {
+	ar="$1"
+	d="$(date +%u)"
+	case "$ar" in
+		mon|monday)
+			w=1
+			;;
+		tue|tuesday)
+			w=2
+			;;
+		wed|wednesday)
+			w=3
+			;;
+		thu|thursday)
+			w=4
+			;;
+		fri|friday)
+			w=5
+			;;
+		sat|saturday)
+			w=6
+			;;
+		sun|sunday)
+			w=7
+			;;
+		*)
+			w=0
+			;;
+	esac
+	[ "$w" = "0" ] && echo "" || echo "$(((w-d+7) % 7))"
+}
+
+secondsline() {
+	# TODO: this function is not needed, need similar one with weekday
+	line="$(cat)"
+	s="$(datetoseconds $line)"
+	t="$(echo "$line" | sed -E 's/....-..-.. .{1,2}:.. //g')"
+	echo "$s $t"
+}
+
+filterlines() {
+	while read -r line; do
+		s="$(datetoseconds $line)"
+		[ "$s" -ge "$1" ] && [ "$s" -lt "$2" ] && echo "$line"
+	done
+}
+
+list() {
+	if [ -z "$1" ]; then
+		cat
+	elif [ "$1" = "now" ] || [ "$1" = "n" ]; then
+		grep "$(date +'%Y-%m-%d %H:%M')"
+	elif [ "$1" = "today" ] || [ "$1" = "t" ]; then
+		grep "$(date +'%Y-%m-%d')"
+	elif [ "$1" = "tomorrow" ] || [ "$1" = "tm" ]; then
+		grep "$(secondstoday $(dayplus 1))"
+	elif [ "$1" = "week" ] || [ "$1" = "w" ]; then
+		filterlines "$(monday)" "$(monday1)"
+	elif [ "$1" = "nextweek" ] || [ "$1" = "nw" ]; then
+		filterlines "$(monday1)" "$(monday2)"
+	elif [ "$1" = "future" ] || [ "$1" = "f" ]; then
+		filterlines "$(date +%s)" "9999999999"
+	elif [ "$1" = "past" ] || [ "$1" = "p" ]; then
+		filterlines "0" "$(date +%s)"
+	fi
+}
+
+case "$1" in
+	add)
+		if [ "$2" = "today" ] || [ "$2" = "t" ]; then
+			d="$(date +'%Y-%m-%d')"
+		elif [ "$2" = "tomorrow" ] || [ "$2" = "tm" ]; then
+			d="$(secondstoday $(dayplus 1))"
+		elif [ -n "$2" ]; then
+			d="$(secondstoday $(dayplus $(daydiff $2)))"
+		fi
+		[ -n "$d" ] && printf '%s ' "$d"
+		read -r line
+		[ -n "$d" ] && line="$d $line"
+		echo "$line" >> "$file"
+		;;
+	clear)
+		tmp=$(mktemp)
+		cat "$file" | list future | sort > "$tmp"
+		mv "$tmp" "$file"
+		;;
+	edit)
+		"$editor" "$file"
+		;;
+	list)
+		cat "$file" | list $2 | sort
+		;;
+	*)
+		usage
+		;;
+esac

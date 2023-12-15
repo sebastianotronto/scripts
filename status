@@ -4,7 +4,7 @@
 #	- date and time
 #	- battery
 #	- wifi (requires nmcli)
-#	- past reminders, if any (requires sdep and sdep-list)
+#	- past notifications (requires notify)
 
 # Usage: status [separator]
 
