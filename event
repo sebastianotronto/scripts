@@ -46,9 +46,10 @@ datetoseconds() {
 	fi
 }
 
+today() { echo "$(date +'%Y-%m-%d') 00:00"; }
 dayplus() {
 	d="$1"
-	n="$(datetoseconds today)"
+	n="$(datetoseconds $(today))"
 	echo "$((n+d*60*60*24))"
 }
 monday() { d="$(date +%u)"; dayplus "$((1-d))"; }
@@ -96,7 +97,8 @@ secondsline() {
 
 filterlines() {
 	while read -r line; do
-		s="$(datetoseconds $line)"
+		cleanline="$(echo "$line" | awk '{print $1, $2}')"
+		s="$(datetoseconds $cleanline)"
 		[ "$s" -ge "$1" ] && [ "$s" -lt "$2" ] && echo "$line"
 	done
 }
