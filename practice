@@ -8,7 +8,7 @@ nissy="nissy"
 prompt="Press enter for a new scramble, Ctr+C (or Ctrl+Z) to quit:"
 
 usage() {
-	echo "Usage: practice [eo|dr|htr|slice]"
+	echo "Usage: practice [eo|dr|htr|fin]"
 	exit 1
 }
 
@@ -33,10 +33,14 @@ practice_eo() {
 		nfb="$((nfbn + nfbi + nfbniss))"
 		nrl="$((nrln + nrli + nrlniss))"
 		nud="$((nudn + nudi + nudniss))"
+		n5linear="$(${nissy} solve -L -m 5 -M 5 eo -c "$scr")"
+		n5niss="$(${nissy} solve -N -m 5 -M 5 eo -c "$scr")"
+		n5nonlinear="$((n5niss - n5linear))"
 		read -r x
 		echo "FB: $nfb ($nfbn normal, $nfbi inverse, $nfbniss niss)"
 		echo "RL: $nrl ($nrln normal, $nrli inverse, $nrlniss niss)"
 		echo "UD: $nud ($nudn normal, $nudi inverse, $nudniss niss)"
+		echo "5 movers: $n5linear linear, $n5nonlinear NISS'd"
 		read -r x
 		echo "$eofb"
 		echo "---"
@@ -48,43 +52,49 @@ practice_eo() {
 	done
 }
 
-dr_scramble() {
-	d="9"
-	min="4"
-	max="7"
-	while true; do
-		eo="$(tr -cd 'UDRL' < /dev/random | fold -w "$d" | head -n 1)"
-		eoinv="$(echo "$eo" | rev | sed 's/./&3/g')"
-		sol="$(${nissy} solve -p drud-eofb "$eoinv")"
-		len="$(echo "$sol" | wc -w)"
-		if [ "$len" -ge "$min" ] && [ "$len" -le "$max" ]; then
-			break
-		fi
-	done
-	${nissy} solve drud -p -m $((d + 1)) "$eo"
-}
-
 practice_dr() {
-	nextscr="$(dr_scramble)"
+	nextscr="$(${nissy} scramble eo)"
 	while true; do
 		scr="$nextscr"
 		echo "Scramble: $scr"
-		nextscr="$(dr_scramble)"
+		nextscr="$(${nissy} scramble eo)"
 		soleo="$(${nissy} solve -o -p drud-eofb "$scr")"
 		neo="$(echo "$soleo" | grep -v '^$' | wc -l)"
 		leo="$(echo "$soleo" | head -n 1 | wc -w)"
 		solht="$(${nissy} solve -o -p drud "$scr")"
-		nht="$(echo "$soleo" | grep -v '^$' | wc -l)"
-		lht="$(echo "$soleo" | head -n 1 | wc -w)"
+		nht="$(echo "$solht" | grep -v '^$' | wc -l)"
+		lht="$(echo "$solht" | head -n 1 | wc -w)"
+		soleolr="$(${nissy} solve -o -p drrl-eofb "$scr")"
+		neolr="$(echo "$soleolr" | grep -v '^$' | wc -l)"
+		leolr="$(echo "$soleolr" | head -n 1 | wc -w)"
+		solhtlr="$(${nissy} solve -o -p drrl "$scr")"
+		nhtlr="$(echo "$solhtlr" | grep -v '^$' | wc -l)"
+		lhtlr="$(echo "$solhtlr" | head -n 1 | wc -w)"
 		read -r x
-		echo "$leo moves ($neo solutions)"
+		echo "DR on U/D: $leo moves ($neo solutions)"
 		if [ "$nht" != "$neo" ] || [ "$lht" != "$leo" ]; then
 			echo "Breaking EO: $lht moves ($nht solutions)"
 		fi
+		echo "DR on R/L: $leolr moves ($neolr solutions)"
+		if [ "$nhtlr" != "$neolr" ] || [ "$lhtlr" != "$leolr" ]; then
+			echo "Breaking EO: $lhtlr moves ($nhtlr solutions)"
+		fi
 		read -r x
+		echo "On U/D:"
 		echo "$soleo"
+		echo ""
 		if [ "$nht" != "$neo" ] || [ "$lht" != "$leo" ]; then
+			echo "Breaking EO:"
 			echo "$solht"
+			echo ""
+		fi
+		echo "On R/L:"
+		echo "$soleolr"
+		echo ""
+		if [ "$nhtlr" != "$neolr" ] || [ "$lhtlr" != "$leolr" ]; then
+			echo "Breaking EO:"
+			echo "$solhtlr"
+			echo ""
 		fi
 		printf '\n%s' "$prompt"
 		read -r x
@@ -100,16 +110,28 @@ practice_htr() {
 		sol="$(${nissy} solve -o -p htr "$scr")"
 		nsol="$(echo "$sol" | grep -v '^$' | wc -l)"
 		len="$(echo "$sol" | head -n 1 | wc -w)"
+		fin="$(${nissy} solve -o -p drfin "$scr")"
+		lenf="$(echo "$fin" | head -n 1 | wc -w)"
+		slice="$(${nissy} solve -o -p drslice "$scr")"
+		lens="$(echo "$slice" | head -n 1 | wc -w)"
 		read -r x
 		echo "$len moves ($nsol solutions)"
 		read -r x
 		echo "$sol"
+		if [ "$lenf" != "$lens" ]; then
+			echo ""
+			echo "Optimal leave slice ($lens):"
+			echo "$slice"
+		fi
+		echo ""
+		echo "Optimal DR finish ($lenf):"
+		echo "$fin"
 		printf '\n%s' "$prompt"
 		read -r x
 	done
 }
 
-practice_slice() {
+practice_fin() {
 	nextscr="$(${nissy} scramble htr)"
 	while true; do
 		scr="$nextscr"
@@ -118,10 +140,28 @@ practice_slice() {
 		sol="$(${nissy} solve -o -p drudslice "$scr")"
 		nsol="$(echo "$sol" | grep -v '^$' | wc -l)"
 		len="$(echo "$sol" | head -n 1 | wc -w)"
+		fin="$(${nissy} solve -o -p drudfin "$scr")"
+		nfin="$(echo "$fin" | grep -v '^$' | wc -l)"
+		lenf="$(echo "$fin" | head -n 1 | wc -w)"
+		opt="$(${nissy} solve -o -p "$scr")"
+		leno="$(echo "$opt" | head -n 1 | wc -w)"
 		read -r x
-		echo "$len moves ($nsol solutions)"
+		echo "Leave slice: $len moves ($nsol solutions)"
+		if [ "$lenf" != "$len" ]; then
+			echo "DR finish: $lenf moves"
+		fi
 		read -r x
 		echo "$sol"
+		if [ "$lenf" != "$len" ]; then
+			echo ""
+			echo "Optimal DR finish ($lenf):"
+			echo "$fin"
+		fi
+		if [ "$leno" != "$lenf" ]; then
+			echo ""
+			echo "Optimal DR-breaking ($leno):"
+			echo "$opt"
+		fi
 		printf '\n%s' "$prompt"
 		read -r x
 	done
