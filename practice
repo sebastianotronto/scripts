@@ -72,11 +72,11 @@ practice_dr() {
 		lhtlr="$(echo "$solhtlr" | head -n 1 | wc -w)"
 		read -r x
 		echo "DR on U/D: $leo moves ($neo solutions)"
-		if [ "$nht" != "$neo" ] || [ "$lht" != "$leo" ]; then
+		if [ "$nht" != "$neo" ]; then
 			echo "Breaking EO: $lht moves ($nht solutions)"
 		fi
 		echo "DR on R/L: $leolr moves ($neolr solutions)"
-		if [ "$nhtlr" != "$neolr" ] || [ "$lhtlr" != "$leolr" ]; then
+		if [ "$nhtlr" != "$neolr" ]; then
 			echo "Breaking EO: $lhtlr moves ($nhtlr solutions)"
 		fi
 		read -r x
