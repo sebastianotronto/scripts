@@ -1,0 +1,62 @@
+#!/bin/sh
+
+# Get images for a Rubik's cube state from http://cube.rider.biz/visualcube.php
+# Can be used with a local installation of visualcube.
+
+# Usage: cubeviz [type] [alg]
+# See usage() for details
+# Requires: curl, ImageMagick
+
+visualcube="http://cube.rider.biz/visualcube.php"
+
+usage() {
+	echo "Usage: cubeviz [type] [alg]"
+	echo "Types: trigger"
+	echo "Alg: use the standard notation"
+}
+
+trigger() {
+	alg="$(echo "$1" | tr "'" "3" | tr -d " ")"
+	w="wwwwwwwww"
+	y="yyyyyyyyy"
+	l="lllllllll"
+	d="ddddddddd"
+	t="ttttttttt"
+	ud="$visualcube?fmt=svg&fc=$y$l$l$y$l$l&size=200&view=plan"
+	top="$ud&alg=$alg"
+	bottom="$ud&alg=${alg}x2"
+	s="$visualcube?fmt=svg&fc=$y$t$t$y$t$t&size=200&r=y30x-30"
+	side="$s&co=30&alg=$alg"
+
+	d="pics_tmp"
+	f="trigger_$alg.png"
+
+	# We need some temporary files because visualcube is broken
+	# on Conrad's website and cannot output formats other than svg.
+	mkdir "$d"
+	curl "$top"    > $d/top.svg
+	curl "$bottom" > $d/bottom.svg
+	curl "$side"   > $d/side.svg
+
+	c="convert -density 400"
+	$c $d/top.svg $d/top.png
+	$c $d/bottom.svg $d/bottom.png
+	$c $d/side.svg $d/side.png
+
+	montage -tile 2x2 -mode concatenate \
+		$d/top.png $d/side.png $d/bottom.png $f
+
+	rm -r "$d"
+}
+
+[ -z "$2" ] && usage && exit 1
+
+case "$1" in
+	trigger)
+		trigger "$2"
+		;;
+	*)
+		usage
+		exit 1
+		;;
+esac

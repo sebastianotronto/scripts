@@ -6,6 +6,7 @@ SCRIPTS =       addressgrep \
 		clip \
 		config-backup \
 		cth \
+		cubeviz \
 		dmenu-bookmarks \
 		dmenu-dwm-sessionmanager \
 		dmenu-filepicker \
