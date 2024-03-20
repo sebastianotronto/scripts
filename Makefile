@@ -1,6 +1,7 @@
 PREFIX = /usr/local
 
 SCRIPTS =       addressgrep \
+		alg \
 		battery-checknow \
 		battery-status \
 		clip \
