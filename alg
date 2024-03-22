@@ -16,78 +16,78 @@ cbuffer=UFR
 wbuffer=UFr
 
 edge() {
-	[ "$1" = "A" ] && echo FU
-	[ "$1" = "B" ] && echo UF
-	[ "$1" = "C" ] && echo UL
-	[ "$1" = "D" ] && echo UB
-	[ "$1" = "E" ] && echo FD
-	[ "$1" = "F" ] && echo RD
-	[ "$1" = "G" ] && echo LD
-	[ "$1" = "I" ] && echo FR
-	[ "$1" = "J" ] && echo LU
-	[ "$1" = "K" ] && echo RB
-	[ "$1" = "L" ] && echo DF
-	[ "$1" = "M" ] && echo DB
-	[ "$1" = "N" ] && echo DR
-	[ "$1" = "O" ] && echo FL
-	[ "$1" = "P" ] && echo DL
-	[ "$1" = "R" ] && echo BU
-	[ "$1" = "S" ] && echo BD
-	[ "$1" = "T" ] && echo BL
-	[ "$1" = "U" ] && echo BR
-	[ "$1" = "V" ] && echo LF
-	[ "$1" = "W" ] && echo LB
-	[ "$1" = "Z" ] && echo RF
+	[ "$1" = "a" ] && echo FU
+	[ "$1" = "b" ] && echo UF
+	[ "$1" = "c" ] && echo UL
+	[ "$1" = "d" ] && echo UB
+	[ "$1" = "e" ] && echo FD
+	[ "$1" = "f" ] && echo RD
+	[ "$1" = "g" ] && echo LD
+	[ "$1" = "i" ] && echo FR
+	[ "$1" = "j" ] && echo LU
+	[ "$1" = "k" ] && echo RB
+	[ "$1" = "l" ] && echo DF
+	[ "$1" = "m" ] && echo DB
+	[ "$1" = "n" ] && echo DR
+	[ "$1" = "o" ] && echo FL
+	[ "$1" = "p" ] && echo DL
+	[ "$1" = "r" ] && echo BU
+	[ "$1" = "s" ] && echo BD
+	[ "$1" = "t" ] && echo BL
+	[ "$1" = "u" ] && echo BR
+	[ "$1" = "v" ] && echo LF
+	[ "$1" = "w" ] && echo LB
+	[ "$1" = "z" ] && echo RF
 }
 
 corner() {
-	[ "$1" = "A" ] && echo FUL
-	[ "$1" = "B" ] && echo UBL
-	[ "$1" = "C" ] && echo UFL
-	[ "$1" = "D" ] && echo UBR
-	[ "$1" = "E" ] && echo FDR
-	[ "$1" = "F" ] && echo RDB
-	[ "$1" = "G" ] && echo LDF
-	[ "$1" = "J" ] && echo LUF
-	[ "$1" = "K" ] && echo RUB
-	[ "$1" = "L" ] && echo DFR
-	[ "$1" = "M" ] && echo DBR
-	[ "$1" = "N" ] && echo DFL
-	[ "$1" = "O" ] && echo FDL
-	[ "$1" = "P" ] && echo DBL
-	[ "$1" = "R" ] && echo BUR
-	[ "$1" = "S" ] && echo BUL
-	[ "$1" = "T" ] && echo BDL
-	[ "$1" = "U" ] && echo BDR
-	[ "$1" = "V" ] && echo LUB
-	[ "$1" = "W" ] && echo LDB
-	[ "$1" = "Z" ] && echo RDF
+	[ "$1" = "a" ] && echo FUL
+	[ "$1" = "b" ] && echo UBL
+	[ "$1" = "c" ] && echo UFL
+	[ "$1" = "d" ] && echo UBR
+	[ "$1" = "e" ] && echo FDR
+	[ "$1" = "f" ] && echo RDB
+	[ "$1" = "g" ] && echo LDF
+	[ "$1" = "j" ] && echo LUF
+	[ "$1" = "k" ] && echo RUB
+	[ "$1" = "l" ] && echo DFR
+	[ "$1" = "m" ] && echo DBR
+	[ "$1" = "n" ] && echo DFL
+	[ "$1" = "o" ] && echo FDL
+	[ "$1" = "p" ] && echo DBL
+	[ "$1" = "r" ] && echo BUR
+	[ "$1" = "s" ] && echo BUL
+	[ "$1" = "t" ] && echo BDL
+	[ "$1" = "u" ] && echo BDR
+	[ "$1" = "v" ] && echo LUB
+	[ "$1" = "w" ] && echo LDB
+	[ "$1" = "z" ] && echo RDF
 }
 
 wing() {
-	[ "$1" = "A" ] && echo FUl
-	[ "$1" = "B" ] && echo URb
-	[ "$1" = "C" ] && echo ULf
-	[ "$1" = "D" ] && echo UBl
-	[ "$1" = "E" ] && echo FDr
-	[ "$1" = "F" ] && echo RDb
-	[ "$1" = "G" ] && echo LDf
-	[ "$1" = "I" ] && echo FRu
-	[ "$1" = "J" ] && echo LUb
-	[ "$1" = "K" ] && echo RBu
-	[ "$1" = "L" ] && echo DFl
-	[ "$1" = "M" ] && echo DBr
-	[ "$1" = "N" ] && echo DRf
-	[ "$1" = "O" ] && echo FLd
-	[ "$1" = "P" ] && echo DLb
-	[ "$1" = "R" ] && echo BUr
-	[ "$1" = "S" ] && echo BDl
-	[ "$1" = "T" ] && echo BLu
-	[ "$1" = "U" ] && echo BRd
-	[ "$1" = "V" ] && echo LFu
-	[ "$1" = "W" ] && echo LBd
-	[ "$1" = "X" ] && echo LUf
-	[ "$1" = "Z" ] && echo RFd
+	[ "$1" = "a" ] && echo FUl
+	[ "$1" = "b" ] && echo URb
+	[ "$1" = "c" ] && echo ULf
+	[ "$1" = "d" ] && echo UBl
+	[ "$1" = "e" ] && echo FDr
+	[ "$1" = "f" ] && echo RDb
+	[ "$1" = "g" ] && echo LDf
+	[ "$1" = "i" ] && echo FRu
+	[ "$1" = "j" ] && echo LUb
+	[ "$1" = "k" ] && echo RBu
+	[ "$1" = "l" ] && echo DFl
+	[ "$1" = "m" ] && echo DBr
+	[ "$1" = "n" ] && echo DRf
+	[ "$1" = "o" ] && echo FLd
+	[ "$1" = "p" ] && echo DLb
+	[ "$1" = "r" ] && echo BUr
+	[ "$1" = "s" ] && echo BDl
+	[ "$1" = "t" ] && echo BLu
+	[ "$1" = "u" ] && echo BRd
+	[ "$1" = "v" ] && echo LFu
+	[ "$1" = "w" ] && echo LBd
+	[ "$1" = "x" ] && echo LUf
+	[ "$1" = "z" ] && echo RFd
 }
 
 edit() {
@@ -96,7 +96,7 @@ edit() {
 }
 
 showall_c() {
-	all_letters="A B C D E F G J K L M N O P R S T U V W Z"
+	all_letters="a b c d e f g j k l m n o p r s t u v w z"
 	buffer="$1"
 	firstletter="$2"
 	firsttarget="$(corner $firstletter)"
@@ -110,7 +110,7 @@ showall_c() {
 }
 
 showall_e() {
-	all_letters="A B C D E F G I J K L M N O P R S T U V W Z"
+	all_letters="a b c d e f g i j k l m n o p r s t u v w z"
 	buffer="$1"
 	firstletter="$2"
 	firsttarget="$(edge $firstletter)"
@@ -124,7 +124,7 @@ showall_e() {
 }
 
 showall_w() {
-	all_letters="A B C D E F G I J K L M N O P R S T U V W X Z"
+	all_letters="a b c d e f g i j k l m n o p r s t u v w x z"
 	buffer="$1"
 	firstletter="$2"
 	firsttarget="$(wing $firstletter)"
