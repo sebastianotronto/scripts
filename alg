@@ -6,10 +6,10 @@
 # Example: alg c UBL E - prints out all first algs for UBL-FDR-*
 
 usage() {
-	echo "Usage: alg [c|e|w] [buffer] [1 letter|2 letters]"
+	echo "Usage: alg [edit] (c|e|w) [buffer] (1 letter|2 letters)"
 }
 
-editor=vi
+default_editor=vi
 basedir="$HOME/box/speedcubing/bld/algs"
 ebuffer=UR
 cbuffer=UFR
@@ -136,6 +136,13 @@ showall_w() {
 		printf '%s   %s\n' "$firstletter$secondletter" "$line"
 	done
 }
+
+if [ "$1" = "edit" ]; then
+	editor="$default_editor"
+	shift
+else
+	editor="cat"
+fi
 
 type="$1"
 if [ -z "$3" ]; then
