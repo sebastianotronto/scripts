@@ -6,7 +6,7 @@
 # Example: alg c UBL E - prints out all first algs for UBL-FDR-*
 
 usage() {
-	echo "Usage: alg [edit] (c|e|w) [buffer] (1 letter|2 letters)"
+	echo "Usage: alg [[edit] (c|e|w) [buffer] (1 letter|2 letters)]"
 }
 
 default_editor=vi
@@ -137,51 +137,62 @@ showall_w() {
 	done
 }
 
-if [ "$1" = "edit" ]; then
-	editor="$default_editor"
-	shift
+run() {
+	if [ "$1" = "edit" ]; then
+		editor="$default_editor"
+		shift
+	else
+		editor="cat"
+	fi
+
+	type="$1"
+	if [ -z "$3" ]; then
+		letters="$2"
+	else
+		letters="$3"
+		cbuffer="$2"
+		ebuffer="$2"
+		wbuffer="$2"
+	fi
+
+	letter1="$(echo "$letters" | cut -c 1)"
+	letter2="$(echo "$letters" | cut -b 2)"
+
+	[ -z "$letter1" ] && usage && exit 1
+
+	case "$type" in
+	c)
+		if [ -n "$letter2" ]; then
+			edit corners $cbuffer $(corner $letter1) \
+				$(corner $letter2)
+		else
+			showall_c $cbuffer $letter1
+		fi
+		;;
+	e)
+		if [ -n "$letter2" ]; then
+			edit edges $ebuffer $(edge $letter1) $(edge $letter2)
+		else
+			showall_e $ebuffer $letter1
+		fi
+		;;
+	w)
+		if [ -n "$letter2" ]; then
+			edit wings $wbuffer $(wing $letter1) $(wing $letter2)
+		else
+			showall_w $wbuffer $letter1
+		fi
+		;;
+	*)
+		usage && exit 1
+		;;
+	esac
+}
+
+if [ -n "$1" ]; then
+	run $@
 else
-	editor="cat"
+	while read -r args; do
+		run $args
+	done
 fi
-
-type="$1"
-if [ -z "$3" ]; then
-	letters="$2"
-else
-	letters="$3"
-	cbuffer="$2"
-	ebuffer="$2"
-	wbuffer="$2"
-fi
-
-letter1="$(echo "$letters" | cut -c 1)"
-letter2="$(echo "$letters" | cut -b 2)"
-
-[ -z "$letter1" ] && usage && exit 1
-
-case "$type" in
-c)
-	if [ -n "$letter2" ]; then
-		edit corners $cbuffer $(corner $letter1) $(corner $letter2)
-	else
-		showall_c $cbuffer $letter1
-	fi
-	;;
-e)
-	if [ -n "$letter2" ]; then
-		edit edges $ebuffer $(edge $letter1) $(edge $letter2)
-	else
-		showall_e $ebuffer $letter1
-	fi
-	;;
-w)
-	if [ -n "$letter2" ]; then
-		edit wings $wbuffer $(wing $letter1) $(wing $letter2)
-	else
-		showall_w $wbuffer $letter1
-	fi
-	;;
-*)
-	usage && exit 1
-	;;
-esac
