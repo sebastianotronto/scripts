@@ -158,7 +158,7 @@ run() {
 	letter1="$(echo "$letters" | cut -c 1)"
 	letter2="$(echo "$letters" | cut -b 2)"
 
-	[ -z "$letter1" ] && usage && exit 1
+	[ -z "$letter1" ] && usage && return
 
 	case "$type" in
 	c)
@@ -184,7 +184,7 @@ run() {
 		fi
 		;;
 	*)
-		usage && exit 1
+		usage && return
 		;;
 	esac
 }
