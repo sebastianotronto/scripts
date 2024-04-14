@@ -189,12 +189,16 @@ run() {
 	type="$1"
 	if [ -z "$3" ]; then
 		letters="$2"
+		cbuf="$cbuffer"
+		ebuf="$ebuffer"
+		wbuf="$wbuffer"
+		xbuf="$xbuffer"
 	else
 		letters="$3"
-		cbuffer="$2"
-		ebuffer="$2"
-		wbuffer="$2"
-		xbuffer="$2"
+		cbuf="$2"
+		ebuf="$2"
+		wbuf="$2"
+		xbuf="$2"
 	fi
 
 	letter1="$(echo "$letters" | cut -c 1)"
@@ -205,36 +209,34 @@ run() {
 	case "$type" in
 	c)
 		if [ -n "$letter2" ]; then
-			edit corners $cbuffer $(corner $letter1) \
-				$(corner $letter2)
+			edit corners $cbuf $(corner $letter1) $(corner $letter2)
 		else
-			showall_c $cbuffer $letter1
+			showall_c $cbuf $letter1
 		fi
 		;;
 	e)
 		if [ -n "$letter2" ]; then
-			edit edges $ebuffer $(edge $letter1) $(edge $letter2)
+			edit edges $ebuf $(edge $letter1) $(edge $letter2)
 		else
-			showall_e $ebuffer $letter1
+			showall_e $ebuf $letter1
 		fi
 		;;
 	w)
 		if [ -n "$letter2" ]; then
-			edit wings $wbuffer $(wing $letter1) $(wing $letter2)
+			edit wings $wbuf $(wing $letter1) $(wing $letter2)
 		else
-			showall_w $wbuffer $letter1
+			showall_w $wbuf $letter1
 		fi
 		;;
 	x)
 		if [ -n "$letter2" ]; then
-			edit xcenters $xbuffer $(xcenter $letter1) \
-				$(xcenter $letter2)
+			edit xcenters $xbuf $(xcenter $letter1) $(xcenter $letter2)
 		else
-			showall_x $xbuffer $letter1
+			showall_x $xbuf $letter1
 		fi
 		;;
 	*)
-		usage && return
+		usage
 		;;
 	esac
 }
