@@ -245,6 +245,6 @@ if [ -n "$1" ]; then
 	run $@
 else
 	while read -r args; do
-		run $args
+		[ -n "$args" ] && run $args
 	done
 fi
