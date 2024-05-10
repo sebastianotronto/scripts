@@ -9,7 +9,6 @@
 dir=$HOME/box/sfeed
 feeddir=$dir/urls
 destdir=$dir/new
-olddir=$dir/old
 readdir=$dir/last
 menu="dmenu -l 20 -i"
 urlopener=open-url
@@ -82,9 +81,7 @@ case "$1" in
 		show | selectmenu
 		;;
 	clear)
-		d="$olddir/$(date +'%Y-%m-%d-%H-%M-%S')"
-		mkdir "$d"
-		mv "$destdir"/* "$d/"
+		rm -r "$destdir"/*
 		;;
 	show)
 		show
