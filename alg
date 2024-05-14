@@ -6,7 +6,11 @@
 # Example: alg c UBL E - prints out all first algs for UBL-FDR-*
 
 usage() {
-	echo "Usage: alg [[edit] (c|e|w|x) [buffer] (1 letter|2 letters)]"
+	echo "Usage:"
+	echo "alg"
+	echo "alg edit (c|e|w|x) [buffer] (1 letter|2 letters)"
+	echo "alg export (c|e|w|x)"
+	echo "alg publish"
 }
 
 default_editor=vi
@@ -178,13 +182,128 @@ showall_x() {
 	done
 }
 
+export_csv_c() {
+	sorted_letters="d b c l n p m k z f j v w g a o e s r u t"
+	buffer="$cbuffer"
+	f="$basedir/corners/$buffer"
+	printf '"",'
+	for first in $sorted_letters; do
+		printf '"%s",' "$(corner $first)"
+	done
+	printf '\n'
+	for first in $sorted_letters; do
+		firstpiece="$(corner $first)"
+		printf '"%s",' "$firstpiece"
+		for second in $sorted_letters; do
+			g="$f/$firstpiece/$(corner $second)"
+			if [ "$first" = "$second" ] || [ ! -f "$g" ]; then
+				printf '"",'
+			else
+				printf '"%s",' "$(head -n 1 "$g")"
+			fi
+		done
+		printf '\n'
+	done
+}
+
+export_csv_e() {
+	sorted_letters="d c b n l p m k z f v j w g i a o e t r u s"
+	buffer="$ebuffer"
+	f="$basedir/edges/$buffer"
+	printf '"",'
+	for first in $sorted_letters; do
+		printf '"%s",' "$(edge $first)"
+	done
+	printf '\n'
+	for first in $sorted_letters; do
+		firstpiece="$(edge $first)"
+		printf '"%s",' "$firstpiece"
+		for second in $sorted_letters; do
+			g="$f/$firstpiece/$(edge $second)"
+			if [ "$first" = "$second" ] || [ ! -f "$g" ]; then
+				printf '"",'
+			else
+				printf '"%s",' "$(head -n 1 "$g")"
+			fi
+		done
+		printf '\n'
+	done
+}
+
+export_csv_w() {
+	sorted_letters="b d c n l p m k x z f v j w g i a o e t r u s"
+	buffer="$wbuffer"
+	f="$basedir/wings/$buffer"
+	printf '"",'
+	for first in $sorted_letters; do
+		printf '"%s",' "$(wing $first)"
+	done
+	printf '\n'
+	for first in $sorted_letters; do
+		firstpiece="$(wing $first)"
+		printf '"%s",' "$firstpiece"
+		for second in $sorted_letters; do
+			g="$f/$firstpiece/$(wing $second)"
+			if [ "$first" = "$second" ] || [ ! -f "$g" ]; then
+				printf '"",'
+			else
+				printf '"%s",' "$(head -n 1 "$g")"
+			fi
+		done
+		printf '\n'
+	done
+}
+
+export_csv_x() {
+	sorted_letters="d c b l n p m k x z f j v w g i a o e s r u t"
+	buffer="$xbuffer"
+	f="$basedir/xcenters/$buffer"
+	printf '"",'
+	for first in $sorted_letters; do
+		printf '"%s",' "$(xcenter $first)"
+	done
+	printf '\n'
+	for first in $sorted_letters; do
+		firstpiece="$(xcenter $first)"
+		printf '"%s",' "$firstpiece"
+		for second in $sorted_letters; do
+			g="$f/$firstpiece/$(xcenter $second)"
+			if [ "$first" = "$second" ] || [ ! -f "$g" ]; then
+				printf '"",'
+			else
+				printf '"%s",' "$(head -n 1 "$g")"
+			fi
+		done
+		printf '\n'
+	done
+}
+
 run() {
-	if [ "$1" = "edit" ]; then
+	case "$1" in
+	edit)
 		editor="$default_editor"
 		shift
-	else
+		;;
+	export)
+		if [ "$2" = "all" ]; then
+			mkdir -p bldsheets
+			export_csv_c > bldsheets/corners.csv
+			export_csv_e > bldsheets/edges.csv
+			export_csv_w > bldsheets/wings.csv
+			export_csv_x > bldsheets/xcenters.csv
+			echo "Sheets exported to bldsheets"
+			return
+		fi
+		#TODO add option for alternative buffers
+		[ "$2" != "c" ] && [ "$2" != "e" ] && \
+		[ "$2" != "w" ] && [ "$2" != "x" ] && usage && return
+		export_csv_$2
+		return
+		;;
+	*)
 		editor="cat"
-	fi
+		;;
+	esac
 
 	type="$1"
 	if [ -z "$3" ]; then
