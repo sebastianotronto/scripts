@@ -9,8 +9,7 @@ usage() {
 	echo "Usage:"
 	echo "alg"
 	echo "alg edit (c|e|w|x) [buffer] (1 letter|2 letters)"
-	echo "alg export (c|e|w|x)"
-	echo "alg publish"
+	echo "alg export (c|e|w|x|all)"
 }
 
 default_editor=vi
