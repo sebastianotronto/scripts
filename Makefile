@@ -35,6 +35,8 @@ SCRIPTS =       addressgrep \
 		share \
 		spawn \
 		status \
+		status-openbsd \
+		status-void \
 		templess \
 		terminal \
 		translate \

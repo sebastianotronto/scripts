@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Prints some status info to stdout. Includes:
+#	- date and time
+#	- battery
+#	- wifi (requires ifconfig on OpenBSD)
+
+# Usage: status [separator]
+
+sep=${1:-" | "}
+
+time=$(date +"%H:%M")
+date=$(date +"%d %B %Y")
+battery="$(apm | grep -o '[^ ]*%')"
+network="$(ifconfig athn0 | grep status | sed 's/.*status: //')"
+if [ "$network" = "active" ]; then
+	network="$(ifconfig athn0 | grep nwid | sed 's/.*nwid //;s/ chan.*//')"
+fi
+
+echo "$network$sep$battery$sep$date$sep$time"
