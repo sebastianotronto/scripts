@@ -8,8 +8,8 @@
 usage() {
 	echo "Usage:"
 	echo "alg"
-	echo "alg edit (c|e|w|x) [buffer] (1 letter|2 letters)"
-	echo "alg export (c|e|w|x|all)"
+	echo "alg edit (c|e|w|x|t) [buffer] (1 letter|2 letters)"
+	echo "alg export (c|e|w|x|t|all)"
 }
 
 default_editor=vi
@@ -18,6 +18,7 @@ ebuffer=UR
 cbuffer=UFR
 wbuffer=UFr
 xbuffer=Ubl
+tbuffer=Uf
 
 edge() {
 	[ "$1" = "a" ] && echo FU
@@ -120,6 +121,32 @@ xcenter() {
 	[ "$1" = "z" ] && echo Rdf
 }
 
+tcenter() {
+	[ "$1" = "a" ] && echo Fu
+	[ "$1" = "b" ] && echo Ur
+	[ "$1" = "c" ] && echo Ul
+	[ "$1" = "d" ] && echo Ub
+	[ "$1" = "e" ] && echo Fd
+	[ "$1" = "f" ] && echo Rd
+	[ "$1" = "g" ] && echo Ld
+	[ "$1" = "i" ] && echo Fr
+	[ "$1" = "j" ] && echo Lu
+	[ "$1" = "k" ] && echo Rb
+	[ "$1" = "l" ] && echo Df
+	[ "$1" = "m" ] && echo Db
+	[ "$1" = "n" ] && echo Dr
+	[ "$1" = "o" ] && echo Fl
+	[ "$1" = "p" ] && echo Dl
+	[ "$1" = "r" ] && echo Bu
+	[ "$1" = "s" ] && echo Bd
+	[ "$1" = "t" ] && echo Bl
+	[ "$1" = "u" ] && echo Br
+	[ "$1" = "v" ] && echo Lf
+	[ "$1" = "w" ] && echo Lb
+	[ "$1" = "x" ] && echo Ru
+	[ "$1" = "z" ] && echo Rf
+}
+
 edit() {
 	mkdir -p "$basedir/$1/$2/$3"
 	$editor "$basedir/$1/$2/$3/$4"
@@ -175,6 +202,20 @@ showall_x() {
 	for secondletter in $all_letters; do
 		secondtarget="$(xcenter $secondletter)"
 		f="$basedir/xcenters/$buffer/$firsttarget/$secondtarget"
+		[ -f "$f" ] || continue
+		line="$(head -n 1 "$f")"
+		printf '%s   %s\n' "$firstletter$secondletter" "$line"
+	done
+}
+
+showall_t() {
+	all_letters="a b c d e f g i j k l m n o p r s t u v w x z"
+	buffer="$1"
+	firstletter="$2"
+	firsttarget="$(tcenter $firstletter)"
+	for secondletter in $all_letters; do
+		secondtarget="$(tcenter $secondletter)"
+		f="$basedir/tcenters/$buffer/$firsttarget/$secondtarget"
 		[ -f "$f" ] || continue
 		line="$(head -n 1 "$f")"
 		printf '%s   %s\n' "$firstletter$secondletter" "$line"
@@ -277,6 +318,30 @@ export_csv_x() {
 	done
 }
 
+export_csv_x() {
+	sorted_letters="d c b l n p m k x z f j v w g i a o e s r u t"
+	buffer="$tbuffer"
+	f="$basedir/tcenters/$buffer"
+	printf '"",'
+	for first in $sorted_letters; do
+		printf '"%s",' "$(tcenter $first)"
+	done
+	printf '\n'
+	for first in $sorted_letters; do
+		firstpiece="$(tcenter $first)"
+		printf '"%s",' "$firstpiece"
+		for second in $sorted_letters; do
+			g="$f/$firstpiece/$(tcenter $second)"
+			if [ "$first" = "$second" ] || [ ! -f "$g" ]; then
+				printf '"",'
+			else
+				printf '"%s",' "$(head -n 1 "$g")"
+			fi
+		done
+		printf '\n'
+	done
+}
+
 run() {
 	case "$1" in
 	edit)
@@ -290,12 +355,14 @@ run() {
 			export_csv_e > bldsheets/edges.csv
 			export_csv_w > bldsheets/wings.csv
 			export_csv_x > bldsheets/xcenters.csv
-			echo "Sheets exported to bldsheets"
+			export_csv_t > bldsheets/tcenters.csv
+			echo "Sheets exported to bldsheets/"
 			return
 		fi
 		#TODO add option for alternative buffers
 		[ "$2" != "c" ] && [ "$2" != "e" ] && \
-		[ "$2" != "w" ] && [ "$2" != "x" ] && usage && return
+		[ "$2" != "w" ] && [ "$2" != "x" ] && \
+		[ "$2" != "t" ] && usage && return
 		export_csv_$2
 		return
 		;;
@@ -311,12 +378,14 @@ run() {
 		ebuf="$ebuffer"
 		wbuf="$wbuffer"
 		xbuf="$xbuffer"
+		tbuf="$tbuffer"
 	else
 		letters="$3"
 		cbuf="$2"
 		ebuf="$2"
 		wbuf="$2"
 		xbuf="$2"
+		tbuf="$2"
 	fi
 
 	letter1="$(echo "$letters" | cut -c 1)"
@@ -351,6 +420,13 @@ run() {
 			edit xcenters $xbuf $(xcenter $letter1) $(xcenter $letter2)
 		else
 			showall_x $xbuf $letter1
+		fi
+		;;
+	t)
+		if [ -n "$letter2" ]; then
+			edit tcenters $tbuf $(tcenter $letter1) $(tcenter $letter2)
+		else
+			showall_t $tbuf $letter1
 		fi
 		;;
 	*)
