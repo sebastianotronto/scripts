@@ -318,7 +318,7 @@ export_csv_x() {
 	done
 }
 
-export_csv_x() {
+export_csv_t() {
 	sorted_letters="d c b l n p m k x z f j v w g i a o e s r u t"
 	buffer="$tbuffer"
 	f="$basedir/tcenters/$buffer"
