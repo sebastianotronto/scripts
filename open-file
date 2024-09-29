@@ -9,8 +9,8 @@
 menu="dmenu -i -l 15"
 
 # Change default apps here
-video="mpv"
-music="mpv --player-operation-mode=pseudo-gui"
+video="vlc"
+music="vlc"
 pdf="zathura"
 img="imv"
 word="libreoffice"
