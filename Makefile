@@ -11,11 +11,9 @@ SCRIPTS =       addressgrep \
 		dmenu-bookmarks \
 		dmenu-dwm-sessionmanager \
 		dmenu-filepicker \
-		dmenu-mail-aliases \
 		dmenu-screenshot \
 		dmenu-unmount \
 		dmenu-urlselect \
-		dmenu-websearch \
 		event \
 		feed \
 		ffmpeg-screenrecord \
@@ -29,7 +27,6 @@ SCRIPTS =       addressgrep \
 		popup-cal12 \
 		popup-cal3 \
 		popup-terminal \
-		practice \
 		secret \
 		sel \
 		share \
@@ -39,14 +36,11 @@ SCRIPTS =       addressgrep \
 		status-void \
 		templess \
 		terminal \
-		translate \
 		trash \
 		urlgrep \
 		virename \
-		websearch \
 		xedit \
 		xedit-filter \
-		xplumb \
 		xprop-active-window-id \
 		xroot-update \
 		xwallpaper-random-notify
