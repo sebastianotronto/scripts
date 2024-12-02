@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# 2-factor authentication based on oathtool
+
+# Usage: 2fa service [time]
+
+# Requires: secret, oathtool
+
+secrets_folder="$HOME/box/secrets"
+
+if [ -z "$1" ]; then
+	echo "usage: 2fa service [time]"
+	exit 1
+fi
+
+if [ -n "$2" ]; then
+	t="-N $2"
+fi
+
+secret="$(secret show "$secrets_folder/$1-2fa")"
+oathtool -b --totp "$secret" $t
