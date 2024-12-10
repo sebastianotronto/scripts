@@ -1,6 +1,7 @@
 PREFIX = /usr/local
 
-SCRIPTS =       addressgrep \
+SCRIPTS =       2fa \
+		addressgrep \
 		alg \
 		battery-checknow \
 		battery-status \
@@ -41,7 +42,6 @@ SCRIPTS =       addressgrep \
 		virename \
 		xedit \
 		xedit-filter \
-		xprop-active-window-id \
 		xroot-update \
 		xwallpaper-random-notify
 
