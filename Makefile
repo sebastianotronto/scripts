@@ -1,7 +1,6 @@
 PREFIX = /usr/local
 
 SCRIPTS =       2fa \
-		addressgrep \
 		alg \
 		battery-checknow \
 		battery-status \
