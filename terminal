@@ -2,4 +2,6 @@
 
 # My default terminal
 
-st -e tmux new-session "$@"
+terminal=${TERMINAL:-'st -e tmux new-session "$@"'}
+
+$terminal

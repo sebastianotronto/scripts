@@ -1,12 +1,12 @@
 #!/bin/sh
 
-# Saves standard input in a download folder and opens it (spawn)
+# Saves standard input in a temporary file and opens it (spawn)
 # Usage: open-stdin 
-# Requires: open-file
+# Requires: open-file (or set $OPENER to e.g. xdg-open)
 
-#folder=$HOME/Downloads/open-stdin
 folder=${TMPDIR:-/tmp}
+open=${OPENER:-open-file}
 
 tempfile=$(mktemp -p "$folder")
 
-cat > "$tempfile" && open-file $@ "$tempfile"
+cat > "$tempfile" && $open $@ "$tempfile"

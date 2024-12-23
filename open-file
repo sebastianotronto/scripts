@@ -9,9 +9,9 @@
 menu="dmenu -i -l 15"
 
 # Change default apps here
-video="vlc"
-music="vlc"
-pdf="zathura"
+video=${VIDEO:-vlc}
+music=${MUSIC:-vlc}
+pdf=${PDF:-zathura}
 img="imv"
 word="libreoffice"
 sheet="libreoffice"

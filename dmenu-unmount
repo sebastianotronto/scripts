@@ -7,8 +7,7 @@
 # Example: dmenu-unmount -m slmenu -w echo
 
 menu=dmenu
-#writeout=notify-send
-writeout="notify push"
+writeout=${NOTIFY:-"notify push"}
 
 usage() {
 	echo "Usage: dmenu-unmount [-m MENU] [-w WRITER]"

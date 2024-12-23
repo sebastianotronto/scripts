@@ -4,7 +4,7 @@
 # Requires: battery-status, notify-battery
 
 file="${XDG_DATA_HOME:-$HOME/.local/share}/batterystatus"
-notify="notify push"
+notify=${NOTIFY:-"notify push"}
 low=20
 crit=15
 
