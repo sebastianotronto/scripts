@@ -7,7 +7,6 @@
 
 file="$HOME/box/events" # Change to $XDG_DATA_HOME/events or whatever
 editor=${EDITOR:-vi}
-notify=${NOTIFY:-"notify push"}
 
 usage() {
 	echo "Usage: event [command]"
@@ -20,8 +19,6 @@ usage() {
 	echo "               date: now, n; today, t; tomorrow, tm;"
 	echo "                     week, w; nextweek, nw;"
 	echo "                     future, f; past, p"
-	echo "  notify-loop  Notify of all past events, then start a loop that"
-	echo "               checks for events every minute and notifies"
 }
 
 secondstoday() {
@@ -150,22 +147,6 @@ case "$1" in
 		;;
 	list)
 		cat "$file" | list $2 | sort
-		;;
-	notify-loop)
-		clean="sed -E 's/....-..-.. .{1,2}:..[[:space:]]*//g'"
-		cat "$file" | list past | sort | \
-		    sed -E 's/....-..-.. .{1,2}:..[[:space:]]*//g' | \
-			while read text; do
-				$notify "$text"
-			done &
-		while true; do
-			cat "$file" | list now | sort | \
-			    sed -E 's/....-..-.. .{1,2}:..[[:space:]]*//g' | \
-				while read text; do
-					$notify "$text"
-				done &
-			sleep $((60 - $(date +%-S)))
-		done
 		;;
 	*)
 		usage
