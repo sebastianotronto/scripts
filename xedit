@@ -4,6 +4,6 @@
 # Requires: terminal
 
 editor=${EDITOR:-${VISUAL:-vi}}
-xed=${XEDIT:-'terminal "$editor"'}
+xed=${XEDIT:-"terminal "$editor""}
 
 $xed "$@"
