@@ -5,6 +5,13 @@
 
 # Usage: dmenu-dwm-sessionmanager [-m menu]
 
+#sudo=sudo
+sudo=doas
+wmname="dwm"
+shutdown_cmd="$sudo poweroff"
+reboot_cmd="$sudo reboot"
+closewm_cmd="pkill $wmname"
+
 menu="dmenu -i"
 prompt="Do you want to quit?"
 
@@ -24,11 +31,6 @@ while getopts "m:" opt; do
 	esac
 done
 shift $((OPTIND - 1))
-
-wmname="dwm"
-shutdown_cmd="sudo shutdown -h now"
-reboot_cmd="sudo reboot"
-closewm_cmd="pkill $wmname"
 
 value=$(printf 'Shutdown\nReboot\nQuit dwm\n' | $menu -p "$prompt")
 

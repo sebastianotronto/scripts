@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# Prints some status info to stdout. Includes:
+#	- date and time
+#	- battery
+#	- wifi (requires nmcli)
+#	- past notifications (requires notify)
+
+# Usage: status [separator]
+
+sep=${1:-" | "}
+
+time=$(date +"%H:%M")
+date=$(date +"%d %B %Y, %A")
+
+if [ "$(pulsemixer --get-mute)" -eq 1 ]; then
+	volume="Audio muted"
+else
+	volume="Vol: $(pulsemixer --get-volume | awk '{print $1}')%"
+fi
+
+bat="/sys/class/power_supply/BAT0"
+if [ -d $bat ]; then
+	charge_status="$(cat $bat/status | awk '{print substr ($0, 0, 2)}')"
+	battery="Bat: $(cat $bat/capacity)% $charge_status"
+else
+	battery="No battery"
+fi
+
+# NetworkManager has a dreadful command line interface
+# It makes cry every time
+# pls help
+#nwline="$(nmcli device status | head -n 2 | tail -n 1)"
+#nwclean="$(echo "$nwline" | sed 's/ *$//' | sed 's/.*  //')"
+#network="Network: $nwclean"
+
+# Thank you iwctl for saving us from this dreadful existence
+network="WiFi: $(iwctl station wlan0 show | grep 'Connected network' | awk '{print $3}')"
+
+noticount=$(notify show | wc -l)
+
+printf '%s' "$network$sep$volume$sep$battery$sep$date$sep$time"
+[ "$noticount" = "1" ] && printf '%s' "$sep$(notify show)"
+[ "$noticount" -gt "1" ] && printf '%s' "${sep}Unread items: $noticount"
+printf '\n'

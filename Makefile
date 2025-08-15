@@ -32,8 +32,8 @@ SCRIPTS =       2fa \
 		share \
 		spawn \
 		status \
+		status-linux \
 		status-openbsd \
-		status-void \
 		templess \
 		terminal \
 		trash \
