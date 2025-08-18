@@ -11,10 +11,10 @@
 sep=${1:-" | "}
 
 time=$(date +"%H:%M")
-date=$(date +"%d %B %Y, %A")
+date=$(date +"%a %d %b")
 
 if [ "$(pulsemixer --get-mute)" -eq 1 ]; then
-	volume="Audio muted"
+	volume="Muted"
 else
 	volume="Vol: $(pulsemixer --get-volume | awk '{print $1}')%"
 fi
@@ -35,11 +35,11 @@ fi
 #network="Network: $nwclean"
 
 # Thank you iwctl for saving us from this dreadful existence
-network="WiFi: $(iwctl station wlan0 show | grep 'Connected network' | awk '{print $3}')"
+network="$(iwctl station wlan0 show | grep 'Connected network' | awk '{print $3}')"
 
 noticount=$(notify show | wc -l)
 
 printf '%s' "$network$sep$volume$sep$battery$sep$date$sep$time"
 [ "$noticount" = "1" ] && printf '%s' "$sep$(notify show)"
-[ "$noticount" -gt "1" ] && printf '%s' "${sep}Unread items: $noticount"
+[ "$noticount" -gt "1" ] && printf '%s' "${sep} [$noticount]"
 printf '\n'

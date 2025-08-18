@@ -17,7 +17,7 @@ usage() {
 touch "$file"
 case "$1" in 
 	push)
-		echo "(Notified $date) $2" >> "$file"
+		echo "[$date $2]" >> "$file"
 		$update
 		;;
 	clean)
