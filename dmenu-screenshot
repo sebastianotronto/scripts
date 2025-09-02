@@ -25,7 +25,7 @@ while getopts "m:" opt; do
 done
 shift $((OPTIND - 1))
 
-folder="$HOME/pictures/screenshots"
+folder="$HOME/box/pictures/screenshots"
 filename="screenshot_$(date +%Y-%m-%d-%H%M%S).png"
 filepath="${folder}/${filename}"
 

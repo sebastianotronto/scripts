@@ -16,13 +16,13 @@ date=$(date +"%a %d %b")
 if [ "$(pulsemixer --get-mute)" -eq 1 ]; then
 	volume="Muted"
 else
-	volume="Vol: $(pulsemixer --get-volume | awk '{print $1}')%"
+	volume="Vol $(pulsemixer --get-volume | awk '{print $1}')%"
 fi
 
 bat="/sys/class/power_supply/BAT0"
 if [ -d $bat ]; then
 	charge_status="$(cat $bat/status | awk '{print substr ($0, 0, 2)}')"
-	battery="Bat: $(cat $bat/capacity)% $charge_status"
+	battery="Bat $(cat $bat/capacity)% $charge_status"
 else
 	battery="No battery"
 fi
@@ -41,5 +41,5 @@ noticount=$(notify show | wc -l)
 
 printf '%s' "$network$sep$volume$sep$battery$sep$date$sep$time"
 [ "$noticount" = "1" ] && printf '%s' "$sep$(notify show)"
-[ "$noticount" -gt "1" ] && printf '%s' "${sep} [$noticount]"
+[ "$noticount" -gt "1" ] && printf '%s' "${sep}[$noticount]"
 printf '\n'
