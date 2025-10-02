@@ -36,6 +36,13 @@ fi
 
 # Thank you iwctl for saving us from this dreadful existence
 network="$(iwctl station wlan0 show | grep 'Connected network' | awk '{print $3}')"
+if [ "$(cat /sys/class/net/eth0/carrier)" = 1 ]; then
+	if [ -z "$network" ]; then
+		network="eth"
+	else
+		network="eth & $network"
+	fi
+fi
 
 noticount=$(notify show | wc -l)
 
