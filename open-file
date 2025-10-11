@@ -12,11 +12,11 @@ menu="dmenu -i -l 15"
 video=${VIDEO:-vlc}
 music=${MUSIC:-vlc}
 pdf=${PDF:-zathura}
-img="nsxiv"
-word="libreoffice"
-sheet="libreoffice"
-html="firefox --new-window"
-xedit="xedit"
+img="${IMGVIEW:-nsxiv}"
+word="${WORDS:-libreoffice}"
+sheet="${SHEETS:-libreoffice}"
+html="${BROWSER:-firefox} --new-window"
+xedit="${XEDIT:-xedit}"
 
 usage() {
 	echo "Usage: open-file [-m MENU] [-s LAUNCHER] [-t MIMETYPE] [files...]"

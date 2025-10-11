@@ -10,7 +10,7 @@ dir=$HOME/box/sfeed
 feeddir=$dir/urls
 destdir=$dir/new
 readdir=$dir/last
-menu="dmenu -l 20 -i"
+menu="${FEEDMENU:-dmenu -l 20 -i}"
 urlopener=open-url
 
 usage() {
