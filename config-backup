@@ -4,7 +4,7 @@
 
 folder=$HOME/box/configbackups
 
-dotfiles=".bash_profile .bashrc .profile .inputrc .mblaze .nexrc .tmux.conf .virc .xinitrc"
+dotfiles=".bash_profile .bashrc .profile .inputrc .mblaze .nexrc .tmux.conf .virc .xinitrc .config/isyncrc"
 config="colors fontconfig git imv msmtp zathura"
 src="dmenu dwm st"
 
@@ -26,9 +26,3 @@ for i in $src
 done
 
 cp "$HOME"/.ssh/config "$folder"/ssh/
-
-# redact
-
-sed 's/^password .*/password REDACTED/' \
-	< "$folder"/config/msmtp/config > "$folder"/config/msmtp/config.redacted
-rm "$folder"/config/msmtp/config
