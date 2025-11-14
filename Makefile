@@ -29,7 +29,6 @@ SCRIPTS =       2fa \
 		popup-terminal \
 		secret \
 		sel \
-		share \
 		spawn \
 		status \
 		status-linux \
