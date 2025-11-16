@@ -21,6 +21,8 @@ getnew() {
 	for f in "$feeddir"/*; do
 		read -r url < "$f"
 		name=$(basename "$f")
+		printf '%s... ' "$name"
+
 		d="$destdir/$name"
 		r="$readdir/$name"
 
@@ -34,6 +36,8 @@ getnew() {
 
 		# Update last time stamp
 		awk -v lr="$lr" '$1 > lr {lr=$1} END {print lr}' <"$tmp" >"$r"
+
+		printf 'downloaded\n'
 	done
 }
 
