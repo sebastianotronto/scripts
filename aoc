@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Set up a working environment for Advent of Code (https://adventofcode.com/).
+# Requires tmux, lynx, curl and a valid AOC_SESSION_COOKIE session cookie.
+
+# usage: aoc [yyyy nn]
+# If yyyy (year) and nn (day, with leading zero if single digit) are not
+# specified, the current year and day are used.
+
+editor="vi a.py"
+basedir="$HOME/src/aoc"
+lynx_cookie_file="$(mktemp)"
+clibrowser="lynx -cookie_file=$lynx_cookie_file"
+
+year="${1:-$(date +'%Y')}"
+day="${2:-$(date +'%d')}"
+daynozero="$(echo "$day" | sed 's/^0//')"
+
+cd "$basedir/$year/$day"
+
+# Download the puzzle input and save it to input.txt
+url="https://adventofcode.com/$year/day/$daynozero/input"
+curl "$url" -H "cookie: session=$AOC_SESSION_COOKIE" -o input.txt
+
+# Open a tmux session with lynx in its own windows, and an editor and a
+# terminal in split view.
+printf 'adventofcode.com\tFALSE\t/\tTRUE\t2079722976\tsession\t%s' \
+	"$AOC_SESSION_COOKIE" > "$lynx_cookie_file"
+url="https://adventofcode.com/$year/day/$daynozero"
+tmux new-session \; \
+	send-keys "$editor" C-m \; \
+	split-window -h \; \
+	select-pane -t 0 \; \
+	new-window \; \
+	send-keys "$clibrowser $url" C-m \;

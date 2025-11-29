@@ -1,7 +1,7 @@
 PREFIX = /usr/local
 
 SCRIPTS =       2fa \
-		aocd \
+		aoc \
 		battery-checknow \
 		battery-status \
 		clip \
