@@ -5,7 +5,6 @@ SCRIPTS =       2fa \
 		battery-checknow \
 		battery-status \
 		clip \
-		config-backup \
 		cth \
 		cubeviz \
 		dmenu-bookmarks \
