@@ -19,8 +19,10 @@ daynozero="$(echo "$day" | sed 's/^0//')"
 cd "$basedir/$year/$day"
 
 # Download the puzzle input and save it to input.txt
-url="https://adventofcode.com/$year/day/$daynozero/input"
-curl "$url" -H "cookie: session=$AOC_SESSION_COOKIE" -o input.txt
+if [ ! -e input.txt ]; then
+	url="https://adventofcode.com/$year/day/$daynozero/input"
+	curl "$url" -H "cookie: session=$AOC_SESSION_COOKIE" -o input.txt
+fi
 
 # Open a tmux session with lynx in its own windows, and an editor and a
 # terminal in split view.
