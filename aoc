@@ -24,11 +24,25 @@ if [ ! -e input.txt ]; then
 	curl "$url" -H "cookie: session=$AOC_SESSION_COOKIE" -o input.txt
 fi
 
+# Download the problem statement page and split out the code blocks
+url="https://adventofcode.com/$year/day/$daynozero"
+curl "$url" | sed -n '/<pre><code>/,/<\/code><\/pre>/ p' | (\
+	i=1
+	rm -f "code-$i.txt"
+	while read line; do
+		if [ "$line" = "</code></pre>" ]; then
+			i=$((i + 1))
+			rm -f "code-$i.txt"
+		else
+			echo "$line" | sed 's/<.*>//g' >> "code-$i.txt"
+		fi
+	done
+)
+
 # Open a tmux session with lynx in its own windows, and an editor and a
 # terminal in split view.
 printf 'adventofcode.com\tFALSE\t/\tTRUE\t2079722976\tsession\t%s' \
 	"$AOC_SESSION_COOKIE" > "$lynx_cookie_file"
-url="https://adventofcode.com/$year/day/$daynozero"
 tmux new-session \; \
 	send-keys "$editor" C-m \; \
 	split-window -h \; \
